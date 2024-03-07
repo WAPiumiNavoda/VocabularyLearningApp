@@ -1,0 +1,44 @@
+[
+  {
+      "id": "1",
+      "character":[
+                  {
+                      "word": ["C", " ", "T"] ,
+                      "answers":"A"
+                  },
+                  {
+                      "word": ["M", "A", " "] ,
+                      "answers":"A"
+                  },
+                  {
+                      "word": ["S", " ", "T"] ,
+                      "answers":"E"
+                  }
+              ],
+      "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
+      "category": "Adjectives",
+      "time": "10",
+      "level": "Basic"
+    },
+    {
+      "id": "2",
+      "character":[
+                  {
+                      "word": ["C", " ", "T"] ,
+                      "answers":"A"
+                  },
+                  {
+                      "word": ["M", "A", " "] ,
+                      "answers":"A"
+                  },
+                  {
+                      "word": ["S", " ", "T"] ,
+                      "answers":"E"
+                  }
+              ],
+      "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
+      "category": "Noun",
+      "time": "10",
+      "level": "Basic"
+    }
+]
