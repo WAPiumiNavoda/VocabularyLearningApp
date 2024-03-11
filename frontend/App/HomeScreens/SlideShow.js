@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image } from "react-native";
 
 const images = [
-  require("../../App/assets/edu.jpeg"),
-  require("../../App/assets/login.png"),
-  require("../../App/assets/edu1.png"),
+  require("../../App/assets/slide5.jpg"),
+  require("../../App/assets/slide1.jpg"),
+  require("../../App/assets/slide4.png"),
+  require("../../App/assets/slide7.jpg"),
   // Add more images as needed
 ];
 
@@ -24,7 +25,7 @@ export default function SlideShow() {
       <Image
         source={images[currentImageIndex]}
         style={{
-          marginTop: 0,
+          margin: 0,
           width: "100%",
           height: 200,
           resizeMode: "cover",

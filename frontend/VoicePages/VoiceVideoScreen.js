@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
-import Colors from '../App/Shared/Colors';
+import * as React from "react";
+import { View, StyleSheet, Button } from "react-native";
+import { Video, ResizeMode } from "expo-av";
+import Colors from "../App/Shared/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function VoiceVideoScreen({ videoUrl }) {
-
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
-  
+
   return (
     <View style={styles.container}>
       <Video
@@ -22,14 +22,16 @@ export default function VoiceVideoScreen({ videoUrl }) {
         useNativeControls
         resizeMode={ResizeMode.CONTAIN}
         isLooping
-        onPlaybackStatusUpdate={status => setStatus(() => status)}
+        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
       />
       <View style={styles.buttons}>
         <Button
-         color="black"
-          title={status.isPlaying ? 'Pause' : 'Play'}
+          color="black"
+          title={status.isPlaying ? "Pause" : "Play"}
           onPress={() =>
-            status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
+            status.isPlaying
+              ? video.current.pauseAsync()
+              : video.current.playAsync()
           }
         />
       </View>
@@ -39,22 +41,21 @@ export default function VoiceVideoScreen({ videoUrl }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop:20,
+    paddingTop: 20,
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    backgroundColor: "#fff",
   },
   video: {
-    alignSelf: 'center',
+    alignSelf: "center",
     width: 360,
     height: 300,
   },
   buttons: {
     marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily:'outfit',
-    
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "outfit",
   },
 });

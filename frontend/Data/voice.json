@@ -4,7 +4,7 @@
         "questionList": [
           {
             "mainquestion": "Fill the following words using fruit video",
-            "answers": ["data\\banana", "data\\mango", "data\\apple"] 
+            "answers": ["banana", "mango", "apple"] 
           }
         ],
         "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
@@ -17,20 +17,20 @@
         "questionList": [
           {
             "mainquestion": "Fill the following command video",
-            "answers": ["data\\banana", "data\\mango", "data\\apple","data\\dog"] 
+            "answers": ["banana", "mango", "apple","dog"] 
           }
         ],
         "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
         "category": "Commands",
         "time": "10",
         "level": "Complex"
-      }
+      },
       {
         "id": "2",
         "questionList": [
           {
             "mainquestion": "Fill the following command video",
-            "answers": ["data\\banana", "data\\mango", "data\\apple","data\\dog"] 
+            "answers": ["banana", "mango", "apple","dog"] 
           }
         ],
         "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",

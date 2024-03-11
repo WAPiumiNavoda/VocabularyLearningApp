@@ -49,7 +49,7 @@ export default function PlayGroundAdvance({ item, navigation }) {
     setSelectedOption({});
     setShowResult(false);
     const db = firebase.firestore();
-    const questionRf = db.collection("writingdata");
+    const questionRf = db.collection("writingdataAdvance");
     const snapshot = await questionRf.where("category", "==", category).get();
     console.log("Category : " + category);
     if (snapshot.empty) {
@@ -225,7 +225,7 @@ export default function PlayGroundAdvance({ item, navigation }) {
       [
         {
           text: "Next",
-          onPress: () => navigation.navigate("QuizHomeIntermediate")
+          onPress: () => navigation.navigate("LeaderBoard")
         },
       ],
     )
@@ -236,7 +236,7 @@ export default function PlayGroundAdvance({ item, navigation }) {
         [
           {
             text: "OK",
-            onPress: () => navigation.navigate("QuizHome"),
+            onPress: () => navigation.navigate("QuizHomeAdvance"),
             style: "cancel"
           },
         ],
@@ -246,7 +246,7 @@ export default function PlayGroundAdvance({ item, navigation }) {
 
   
   const navigateToDrawingPage = (wordIndex) => {
-    navigation.navigate("DrawingScreen", { wordIndex });
+    navigation.navigate("DrawingScreenAdvance", { wordIndex });
   };
 
   return (
@@ -321,17 +321,16 @@ export default function PlayGroundAdvance({ item, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     backgroundColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 40,
   },
   questionContainer: {
-   
-    marginTop:50,
-    paddingTop:40,
+    marginTop: 60,
+    paddingTop: 40,
     backgroundColor: "#F5F5F5",
     borderRadius: 10,
     marginBottom: 20,
@@ -360,7 +359,7 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 20,
     height: 80,
-    backgroundColor: "#86A7FC",
+    backgroundColor: Colors.white,
     marginRight: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -374,26 +373,20 @@ const styles = StyleSheet.create({
     fontSize: 44,
     fontFamily: "outfi-bold-extra",
     fontWeight: "bold",
-    color: "#FDBF60",
+    color: Colors.yellow,
   },
   navigationButtons: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 0,
   },
-  navigationButton: {
-    marginTop: 0,
-    backgroundColor: "blue",
-    padding: 10,
-    marginHorizontal: 80,
-    borderRadius: 5,
-  },
+
   navigationButtonText: {
     color: "#fff",
     fontSize: 16,
   },
   submitbutton: {
-    backgroundColor: "#FDBF60",
+    backgroundColor: Colors.yellow,
     padding: 10,
     marginVertical: 10,
     borderRadius: 5,
@@ -412,7 +405,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   progressBarContainer: {
-    width: "80%",
+    width: "100%",
     height: 10,
     backgroundColor: "#ccc",
     borderRadius: 5,
@@ -420,12 +413,12 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: "100%",
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.red,
     borderRadius: 5,
   },
   timer: {
-    paddingTop: 10,
-    fontSize: 24,
+    paddingTop: 30,
+    fontSize: 34,
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
@@ -435,13 +428,28 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: "30",
     borderWidth: 2,
-    borderColor: Colors.primary,
-    color: Colors.primary,
+    borderColor: Colors.gray,
+    color: Colors.black,
     width: "60%",
     alignItems: "center",
     // marginLeft: 80,
     padding: 10,
-    marginVertical: 10,
+    marginVertical: 20,
     borderRadius: 10,
   },
+  navigationButton: {
+    marginTop: 30,
+    backgroundColor: Colors.yellow,
+    paddingLeft: 30,
+    paddingRight: 30,
+    padding: 10,
+    marginHorizontal: 65, 
+    borderRadius: 5,
+  },
+  navigationButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
 });
+
+

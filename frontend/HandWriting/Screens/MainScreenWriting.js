@@ -12,9 +12,9 @@ export default function MainScreenWriting({ navigation, route }) {
   const [userLevel, setUserLevel] = useState('');
 
   const initialAnswers = category === 'Fruits'
-    ? ["dataset\\cat", "dataset\\wow", "dataset\\go"]
+    ? ["cat", "wow", "go"]
     : category === 'Commands'
-    ? ["dataset\\cat", "dataset\\wow", "dataset\\up"]
+    ? ["cat", "wow", "up"]
     : [];
 
 
@@ -119,9 +119,9 @@ export default function MainScreenWriting({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View >
       <SlideShowScreenWriting />
-      <View style={styles.wordContainer}>
+      <View style={styles.wordContainer1}>
         {words.map((word, index) => (
           <View key={index} style={styles.row}>
             <TouchableOpacity onPress={() => handleMicPress(index, route.params?.predictedKeyword)}>
@@ -130,7 +130,7 @@ export default function MainScreenWriting({ navigation, route }) {
                 <Feather
                   name="mic"
                   size={24}
-                  color={Colors.primary}
+                  color={Colors.yellow}
                   style={styles.icon}
                 />
               </View>
@@ -149,11 +149,12 @@ export default function MainScreenWriting({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerOne: {
     flex: 1,
+    paddingTop: 20
   },
-  wordContainer: {
-    paddingTop: 20,
+  wordContainer1: {
+    paddingTop: 250,
     paddingHorizontal: 40,
   },
   row: {
@@ -186,7 +187,8 @@ const styles = StyleSheet.create({
     width: '60%',
     borderRadius: 10,
     alignItems: "center",
-    backgroundColor: Colors.primary,
+    
+    backgroundColor: Colors.yellow,
     alignSelf: "center",
   },
   doneButtonText: {

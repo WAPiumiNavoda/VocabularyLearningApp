@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity,ImageBackground, Alert, StyleSheet, Image 
 import { Ionicons } from '@expo/vector-icons'; 
 import { Audio } from 'expo-av';
 import { useNavigation } from "@react-navigation/native";
+import Colors from '../App/Shared/Colors';
 
 const TaskMainPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -84,7 +85,7 @@ const TaskMainPage = () => {
 
   return (
     <ImageBackground
-    source={require('../App/assets/pad.jpeg')}
+    source={require("../App/assets/background1.jpeg")} 
     style={styles.backgroundImageVoice}
   >
     <View style={styles.container}>
@@ -98,7 +99,7 @@ const TaskMainPage = () => {
         </TouchableOpacity>
       </View>
   
-      {/* <Image source={require('../App/assets/cat.jpg')} style={styles.image} /> */}
+      <Image source={require('../App/assets/mic.png')} style={styles.image} />
   
       {selectedFile && (
         <TouchableOpacity style={styles.button3} onPress={playSound}>
@@ -107,7 +108,7 @@ const TaskMainPage = () => {
       )}
   
       <TouchableOpacity style={styles.button4} onPress={predictKeyword} disabled={!selectedFile}>
-        <Text style={styles.buttonText}>Predict Keyword</Text>
+        <Text style={styles.buttonText}>Predict</Text>
       </TouchableOpacity>
       {predictedKeyword && <Text style={styles.predictedKeyword}>Predicted Keyword: {predictedKeyword}</Text>}
     </View>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.yellow,
     padding: 10,
     margin: 5,
     marginTop: 88,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 88,
     justifyContent: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.yellow,
     padding: 14,
      marginBottom:'70px',
     margin: 6,
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.yellow,
     padding: 10,
     margin: 5,
     borderRadius: 5,
@@ -158,8 +159,10 @@ const styles = StyleSheet.create({
   button4: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft: 53,
+    paddingRight: 53,
     justifyContent: 'center',
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.yellow,
     padding: 10,
     margin: 5,
     borderRadius: 5,
@@ -188,7 +191,8 @@ const styles = StyleSheet.create({
   },
   backgroundImageVoice: {
     flex: 1,
-    resizeMode: 'cover',
+    resizeMode:"center",
+    justifyContent: "center",
   },
 });
 

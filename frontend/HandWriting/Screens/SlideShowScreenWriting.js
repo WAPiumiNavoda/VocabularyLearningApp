@@ -4,9 +4,10 @@ import Colors from '../../App/Shared/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 const images = [
-  require('../../App/assets/edu.jpeg'),
-  require('../../App/assets/login.png'),
-  require('../../App/assets/edu1.png'),
+  require("../../App/assets/slide5.jpg"),
+  require("../../App/assets/slide1.jpg"),
+  require("../../App/assets/slide4.png"),
+  require("../../App/assets/slide7.jpg"),
 ];
 
 export default function SlideShowScreenWriting() {
@@ -24,10 +25,10 @@ export default function SlideShowScreenWriting() {
     <View style={styles.container}>
       <ImageBackground source={images[currentImageIndex]} style={styles.image}>
         <View style={styles.overlay}>
-          <View style={styles.searchContainer}>
+          {/* <View style={styles.searchContainer}>
             <TextInput placeholder='Search Vocabulary Course' style={styles.input} />
             <Ionicons name="search" size={30} color={Colors.primary} style={styles.searchIcon} />
-          </View>
+          </View> */}
         </View>
       </ImageBackground>
     </View>

@@ -1,6 +1,3 @@
-/* The code you provided is setting up a Firebase configuration, initializing Firebase with the
-configuration, and defining functions related to user authentication and saving wrong answers to
-Firestore. */
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth'; 

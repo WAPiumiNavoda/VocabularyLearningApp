@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   TouchableOpacity,
   StyleSheet,
   FlatList,
@@ -11,47 +10,42 @@ import Colors from "../App/Shared/Colors";
 import VoiceVideoScreen from "./VoiceVideoScreen";
 import { firebase } from "../App/Services/config";
 import { useAuth } from "../Auth/AuthProvider";
-import { db } from '../App/Services/config';
+import { db } from "../App/Services/config";
 export default function VoiceMainPage({ navigation, route }) {
   const [voiceQuestions, setVoiceQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [showResult, setshowResult] = useState(false);
-  const [userLevel, setUserLevel] = useState('');
+  const [userLevel, setUserLevel] = useState("");
   const { category } = route.params;
   const { userId } = useAuth();
-  console.log("user level: " +  userLevel);
- console.log("Category : " + category);
+  console.log("user level: " + userLevel);
+  console.log("Category : " + category);
 
   useEffect(() => {
     const fetchUserLevel = async () => {
       try {
-        const userDoc = await db.collection('register').doc(userId).get();
+        const userDoc = await db.collection("register").doc(userId).get();
         const userData = userDoc.data();
         if (userData) {
-          setUserLevel(userData.level || '');
+          setUserLevel(userData.level || "");
         }
       } catch (error) {
-        console.error('Error fetching user level:', error);
+        console.error("Error fetching user level:", error);
       }
     };
 
     fetchUserLevel();
   }, [userId]);
 
-
-
   useEffect(() => {
     getVoiceQuestions();
   }, []);
 
   const getVoiceQuestions = async () => {
-   
     setshowResult(false);
     const db = firebase.firestore();
     const questionRf = db.collection("voice");
-    const snapshot = await questionRf
-    .where("category", "==", category)
-    .get();
+    const snapshot = await questionRf.where("category", "==", category).get();
     console.log("Category : " + category);
     if (snapshot.empty) {
       console.log("No matching document..");
@@ -60,18 +54,16 @@ export default function VoiceMainPage({ navigation, route }) {
     const allQuestions = snapshot.docs.map((doc) => doc.data());
     setVoiceQuestions(allQuestions);
   };
-  
- 
-
 
   const handleNextPage = (answers) => {
-
-    
-    navigation.navigate("MainScreenWriting", { passanswers : answers , category : category});
+    navigation.navigate("MainScreenWriting", {
+      passanswers: answers,
+      category: category,
+    });
   };
 
   return (
-    <View style={{ paddingTop: 100 }}>
+    <View style={{ paddingTop: 40 }}>
       <FlatList
         data={voiceQuestions}
         keyExtractor={(item, index) => index.toString()}
@@ -88,8 +80,8 @@ export default function VoiceMainPage({ navigation, route }) {
 
             <View style={styles.buttonView}>
               <TouchableOpacity
-                  onPress={() => handleNextPage(item.questionList[0].answers)}
-                 style={styles.nextButton}
+                onPress={() => handleNextPage(item.questionList[0].answers)}
+                style={styles.nextButton}
               >
                 <Text
                   style={{
@@ -111,15 +103,19 @@ export default function VoiceMainPage({ navigation, route }) {
 
 const styles = StyleSheet.create({
   nextButton: {
-    marginTop: 50,
-    backgroundColor: Colors.primary,
-    width: "50%",
+    marginTop: 30,
+    marginBottom: 15,
+    backgroundColor: Colors.white,
+    shadowColor: Colors.yellow,
+    shadowOpacity: 5,
+    elevation: 5,
+    width: "70%",
     padding: 15,
     alignItems: "center",
     borderRadius: 10,
   },
   buttonView: {
-    marginLeft: 120,
+    marginLeft: 80,
   },
   questionContainer: {
     marginVertical: 10,

@@ -21,7 +21,7 @@ export default function TabNavigation() {
       }}
       tabBarOptions={{
         style: styles.tabBar,
-        activeTintColor: Colors.primary, // Color for the active tab
+        activeTintColor: Colors.yellow, // Color for the active tab
         
       }}
     >
@@ -59,6 +59,7 @@ export default function TabNavigation() {
 
 const styles = StyleSheet.create({
   tabBar: {
+    display:'flex',
     backgroundColor: '#fff', // Background color for the tab bar
     borderTopWidth: 1, // Top border width
     borderTopColor: '#ccc', // Top border color

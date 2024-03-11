@@ -6,6 +6,8 @@ export default{
     black:'#000',
     green:'#0CD650',
     yellow:'#2D9596',
-    orange:'#FF9843'
+    orange:'#FF9843',
+    greenlight: '#9BCF53',
+    red:"#D24545"
 
 }

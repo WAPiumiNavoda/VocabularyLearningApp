@@ -90,7 +90,7 @@ export default function MainWritingPage({ item, navigation }) {
       <VideoScreen videoUrl={selectedVideoUrl} />
 
       <TouchableOpacity style={styles.submitbutton} onPress={handleNext}>
-        <Text style={styles.submitButtonText}>Done</Text>
+        <Text style={styles.submitButtonText}>Start Task</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   submitbutton: {
-    backgroundColor: "#FDBF60",
+    backgroundColor: Colors.yellow,
+    paddingLeft:30,
+    paddingRight: 30,
     padding: 10,
     marginVertical: 50,
     borderRadius: 5,

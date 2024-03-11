@@ -60,7 +60,10 @@ class KeywordSpottingService:
         MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
         predictions = self.model.predict(MFCCs)
         predicted_index = np.argmax(predictions)
-        return self._mapping[predicted_index]
+        predicted_keyword = self._mapping[predicted_index]
+        # Extracting only the word from the directory path
+        predicted_word = predicted_keyword.split("\\")[-1]
+        return predicted_word
 
     def preprocess(self, file_path: str, num_mfcc: int = 13, n_fft: int = 2048, hop_length: int = 512) -> np.ndarray:
         """Extract MFCCs from audio file."""

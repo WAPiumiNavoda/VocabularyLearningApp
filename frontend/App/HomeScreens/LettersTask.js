@@ -1,47 +1,85 @@
-import { View, Text , Image, StyleSheet, TouchableOpacity} from 'react-native'
-import React from 'react'
-import Colors from '../Shared/Colors'
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import React from "react";
+import Colors from "../Shared/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LetterTask() {
-
   const navigation = useNavigation();
 
   return (
-    <View style={style.top1}>
-    <TouchableOpacity onPress={() => navigation.navigate('QuizHome')}>
-      <View style={style.graphStyle}>
-        <Text style={style.textStyle}>Hello Capital</Text>
-      </View>
-    </TouchableOpacity>
+    <ImageBackground
+    source={require("../../App/assets/background1.jpeg")} 
+    style={style.background1}
+  >
+    <View style={style.container}>
+      <View style={style.catregoryContainer}>
+        <TouchableOpacity
+          style={style.category}
+          onPress={() =>
+            navigation.navigate("QuizHome")
+          }
+        >
+          <Image
+            source={require("../../App/assets/write1.jpg")} // Specify the path to your image
+            style={[style.icon, { width: 100, height: 100, marginBottom: 13 }]} // Style your image if needed
+          />
+          <Text style={style.categoryTitle}>Capital Task</Text>
+        </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => navigation.navigate('QuizHomeSimple')}>
-      <View style={style.graphStyle}>
-        <Text style={style.textStyle}>Hello Simple</Text>
+        <TouchableOpacity
+          style={style.category}
+          onPress={() =>
+            navigation.navigate("QuizHomeSimple")
+          }
+        >
+          <Image
+            source={require("../../App/assets/write1.jpg")} // Specify the path to your image
+            style={[
+              style.icon,
+              { width: 100, height: 100, marginBottom: 13, borderRadius: 10 },
+            ]} // Style your image if needed
+          />
+          <Text style={style.categoryTitle}>Simple Task</Text>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
-  </View>
-  )
+    </View>
+    </ImageBackground>
+  );
 }
 
 const style = StyleSheet.create({
-  graphStyle:{
-    height:110,
-    width: 200,
-    backgroundColor: Colors.white,
-    marginLeft: 85,
-    marginBottom:10,
-    borderRadius: 15,
-    marginTop:10
+  
+  container: {
+    flex: 1,
   },
-  textStyle: {
-    fontFamily:'outfi-bold-extra',
-    color: Colors.green,
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 45, // Adjust this value for proper spacing
-},
-top1 : {
-  paddingBottom: 100
-}
-})
+  catregoryContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 150,
+  },
+  category: {
+    width: 150,
+    height: 230,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    shadowColor: Colors.yellow,
+    shadowOpacity: 5,
+    elevation: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  categoryTitle: {
+    fontFamily: "outfit",
+    fontWeight: "bold",
+    textAlign: "center",
+    color: Colors.yellow,
+  },
+  background1: {
+    flex: 1,
+    resizeMode:"center",
+    justifyContent: "center",
+  },
+});

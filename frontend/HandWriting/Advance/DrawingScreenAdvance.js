@@ -74,7 +74,7 @@ const DrawingScreenAdvance= ({ navigation, route }) => {
       const data = await response.json();
       setPredictedCharacter(data.predicted_character);
       // navigation.navigate("VocabWordPage", { character: data.predicted_character  })
-      navigation.navigate("PlayGround", { drawnCharacter: data.predicted_character, wordIndex });
+      navigation.navigate("PlayGroundAdvance", { drawnCharacter: data.predicted_character, wordIndex });
 
 
     } catch (error) {

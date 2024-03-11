@@ -44,7 +44,7 @@ export default function MainScreenWritingPageSimple({ item, navigation }) {
     setSelectedOption({});
     setShowResult(false);
     const db = firebase.firestore();
-    const questionRf = db.collection("writingdata");
+    const questionRf = db.collection("writingdatasimple");
     const snapshot = await questionRf.where("category", "==", category).get();
     console.log("Category : " + category);
     if (snapshot.empty) {
@@ -67,7 +67,7 @@ export default function MainScreenWritingPageSimple({ item, navigation }) {
 
   const getCategoryVideo = async (category) => {
     const db = firebase.firestore();
-    const videoRf = db.collection("writingdata");
+    const videoRf = db.collection("writingdatasimple");
     const snapshot = await videoRf.where("category", "==", category).get();
     if (snapshot.empty) {
       console.log("No matching document video..");
@@ -90,7 +90,7 @@ export default function MainScreenWritingPageSimple({ item, navigation }) {
       <VideoScreen videoUrl={selectedVideoUrl} />
 
       <TouchableOpacity style={styles.submitbutton} onPress={handleNext}>
-        <Text style={styles.submitButtonText}>Done</Text>
+        <Text style={styles.submitButtonText}>Start Task</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   submitbutton: {
-    backgroundColor: "#FDBF60",
+    backgroundColor: Colors.yellow,
+    paddingLeft:30,
+    paddingRight: 30,
     padding: 10,
     marginVertical: 50,
     borderRadius: 5,

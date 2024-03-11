@@ -43,7 +43,7 @@ export default function MainWritingPageIntermediate({ item, navigation }) {
     setSelectedOption({});
     setShowResult(false);
     const db = firebase.firestore();
-    const questionRf = db.collection("writingdata");
+    const questionRf = db.collection("writingdataIntermediates");
     const snapshot = await questionRf.where("category", "==", category).get();
     console.log("Category : " + category);
     if (snapshot.empty) {
@@ -66,7 +66,7 @@ export default function MainWritingPageIntermediate({ item, navigation }) {
 
   const getCategoryVideo = async (category) => {
     const db = firebase.firestore();
-    const videoRf = db.collection("writingdata");
+    const videoRf = db.collection("writingdataIntermediates");
     const snapshot = await videoRf.where("category", "==", category).get();
     if (snapshot.empty) {
       console.log("No matching document video..");
@@ -80,7 +80,7 @@ export default function MainWritingPageIntermediate({ item, navigation }) {
   };
 
   const handleNext = () => {
-    navigation.navigate("PlayGround", { category });
+    navigation.navigate("PlayGroundIntermediate", { category });
   };
 
   return (
@@ -89,7 +89,7 @@ export default function MainWritingPageIntermediate({ item, navigation }) {
       <VideoScreen videoUrl={selectedVideoUrl} />
 
       <TouchableOpacity style={styles.submitbutton} onPress={handleNext}>
-        <Text style={styles.submitButtonText}>Done</Text>
+        <Text style={styles.submitButtonText}>Start Task</Text>
       </TouchableOpacity>
     </View>
   );
@@ -101,7 +101,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   submitbutton: {
-    backgroundColor: "#FDBF60",
+    backgroundColor: Colors.yellow,
+    paddingLeft:30,
+    paddingRight: 30,
     padding: 10,
     marginVertical: 50,
     borderRadius: 5,
@@ -125,3 +127,4 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+

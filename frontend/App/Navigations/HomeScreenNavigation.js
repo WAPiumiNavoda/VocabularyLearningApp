@@ -1,9 +1,7 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../Screens/Home';
 import DrawingScreen from '../../HandWriting/DrawingScreen';
-import VocabWordPage from '../../HandWriting/VocabWordPage';
 import WritingHomePage from '../../HandWriting/WritingHomePage';
 import MainScreenWriting from '../../HandWriting/Screens/MainScreenWriting';
 import WritingTaskLevel from '../../HandWriting/Screens/WritingTaskLevel';
@@ -35,6 +33,7 @@ import DrawingScreenIntermediate from '../../HandWriting/Intermediate/DrawingScr
 import MainWritingPageIntermediate from '../../HandWriting/Intermediate/MainWritingPageIntermediate';
 import MainScreenWritingSimple from '../../SimpleHandWriting/Quiz/MainScreenWritingPageSimple';
 import MainScreenWritingPageSimple from '../../SimpleHandWriting/Quiz/MainScreenWritingPageSimple';
+import LeaderBoardMore from '../Screens/LeaderBoardMore';
 
 
 
@@ -64,7 +63,6 @@ export default function HomeScreenNavigation() {
         {/* Writing */}
         <Stack.Screen name="DrawingScreen" component={DrawingScreen} />
         <Stack.Screen name="DrawingScreenSimple" component={DrawingScreenSimple} />
-        <Stack.Screen name="VocabWordPage" component={VocabWordPage} />
         <Stack.Screen name="WritingHomePage" component={WritingHomePage} />
         <Stack.Screen name="MainScreenWriting" component={MainScreenWriting} />
         <Stack.Screen name="WritingTaskLevel" component={WritingTaskLevel} />
@@ -82,6 +80,7 @@ export default function HomeScreenNavigation() {
         <Stack.Screen name="CircularProgressBar" component={CircularProgressBar} />
         <Stack.Screen name="MainWritingPage" component={MainWritingPage} />
         <Stack.Screen name="MainScreenWritingPageSimple" component={MainScreenWritingPageSimple} />
+        <Stack.Screen name="LeaderBoardMore" component={LeaderBoardMore} />
         
       </Stack.Navigator>
 
