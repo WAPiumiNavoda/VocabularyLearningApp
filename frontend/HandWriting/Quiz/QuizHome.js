@@ -28,7 +28,7 @@ export default function QuizHome() {
             style={style.category}
             onPress={() => navigation.navigate('MainWritingPage', { category: 'Noun' })}
           >
-            <Text style={style.categoryTitle}>Noun</Text>
+            <Text style={style.categoryTitle}>Nouns</Text>
           </TouchableOpacity>
   
           <TouchableOpacity 
@@ -42,14 +42,14 @@ export default function QuizHome() {
             style={style.category}
             onPress={() => navigation.navigate('MainWritingPage', { category: 'Adverbs' })}
           >
-            <Text style={style.categoryTitle}></Text>
+            <Text style={style.categoryTitle}>Adverbs</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={style.category}
-            onPress={() => navigation.navigate('MainWritingPage', { category: 'Adverbs' })}
+            onPress={() => navigation.navigate('MainWritingPage', { category: 'Pronouns' })}
           >
-            <Text style={style.categoryTitle}></Text>
+            <Text style={style.categoryTitle}>Pronouns</Text>
           </TouchableOpacity>
   
         </View>

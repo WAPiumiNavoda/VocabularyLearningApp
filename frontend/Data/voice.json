@@ -12,30 +12,70 @@
         "time": "10",
         "level": "Basic"
       },
+
       {
         "id": "2",
         "questionList": [
           {
             "mainquestion": "Fill the following command video",
-            "answers": ["banana", "mango", "apple","dog"] 
+            "answers": ["stop", "up", "down"] 
           }
         ],
         "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
         "category": "Commands",
         "time": "10",
-        "level": "Complex"
+        "level": "Basic"
       },
       {
-        "id": "2",
+        "id": "3",
         "questionList": [
           {
             "mainquestion": "Fill the following command video",
-            "answers": ["banana", "mango", "apple","dog"] 
+            "answers": ["carrot", "potato", "beans"] 
           }
         ],
         "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
-        "category": "Commands",
+        "category": "Vegetables",
         "time": "10",
-        "level": "Complex"
+        "level": "Basic"
+      },
+      {
+        "id": "4",
+        "questionList": [
+          {
+            "mainquestion": "Fill the following command video",
+            "answers": ["one", "two", "three"] 
+          }
+        ],
+        "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
+        "category": "Numbers",
+        "time": "10",
+        "level": "Basic"
+      },
+      {
+        "id": "5",
+        "questionList": [
+          {
+            "mainquestion": "Fill the following command video",
+            "answers": ["dog", "bird", "cat"] 
+          }
+        ],
+        "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
+        "category": "Animals",
+        "time": "10",
+        "level": "Basic"
+      },
+      {
+        "id": "6",
+        "questionList": [
+          {
+            "mainquestion": "Fill the following command video",
+            "answers": ["pot", "jug", "cup"] 
+          }
+        ],
+        "video":"https://firebasestorage.googleapis.com/v0/b/writing-task-3df83.appspot.com/o/2024-02-20%2014-26-39.mp4?alt=media&token=eda2faa6-8494-4b5b-a43c-7b0ec3310d3a",
+        "category": "Equipments",
+        "time": "10",
+        "level": "Basic"
       }
 ]

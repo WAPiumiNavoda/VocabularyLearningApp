@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Colors from "../../App/Shared/Colors";
 import SlideShowScreenWriting from "./SlideShowScreenWriting";
-import { saveWrongAnswersToFirebase } from "../../App/Services/config";
+import { saveWrongAnswersToFirebase, saveUseTaskDetails } from "../../App/Services/config";
 import { useAuth } from "../../Auth/AuthProvider";
 
 export default function MainScreenWriting({ navigation, route }) {
   //const answers = ["dataset\\cat", "dataset\\wow", "dataset\\go"];
-  const { category } = route.params;
+  const { category } = route.params || {};
+  
   const [userLevel, setUserLevel] = useState('');
 
   const initialAnswers = category === 'Fruits'
@@ -17,6 +18,7 @@ export default function MainScreenWriting({ navigation, route }) {
     ? ["cat", "wow", "up"]
     : [];
 
+  console.log("Voice Category" + category);
 
   const [answers, setAnswers] = useState(initialAnswers);
   const [words, setWords] = useState(Array(answers.length).fill(0));
@@ -24,6 +26,25 @@ export default function MainScreenWriting({ navigation, route }) {
   const [lastPressedIndex, setLastPressedIndex] = useState(null);
   const { userId } = useAuth();
   console.log("Dashboard log user: " +  userId);
+  const [timerExpired, setTimerExpired] = useState(false);
+  const [timer, setTimer] = useState(60);
+
+  // useEffect hook to update timer every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(interval); // Clear interval when timer reaches 0
+          setTimerExpired(true); // Set timerExpired to true when timer runs out
+          handleDonePress(); // Handle when timer runs out
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []); 
 
 
   const handleMicPress = (index, predictedKeyword) => {
@@ -36,7 +57,7 @@ export default function MainScreenWriting({ navigation, route }) {
     setPredictedValues(newPredictedValues);
 
     setLastPressedIndex(index);
-    navigation.navigate("TaskMainPage", { predictedKeyword });
+    navigation.navigate("TaskMainPage", { predictedKeyword, category  });
   };
 
   useEffect(() => {
@@ -67,47 +88,79 @@ export default function MainScreenWriting({ navigation, route }) {
     const percentage = ((score / totalQuestions) * 100).toFixed(2); 
     const scoreMessage = `Your score is ${percentage}%.`; 
 
-    const misspelledWords = [];
-  
 
-    for (let i = 0; i < answers.length; i++) {
-      if (predictedValues[i] !== answers[i]) {
-        misspelledWords.push(predictedValues[i]);
-      }
-    }
-  
+    const wrongAnswers = answers.filter((answer, index) => !predictedValues.includes(answer));
 
-    if (misspelledWords.length > 0) {
-      saveWrongAnswersToFirebase(misspelledWords, userId);
-      console.log("wrrong spelled words " + misspelledWords);
-    }
-  
+    saveWrongAnswersToFirebase(wrongAnswers, userId); 
+    console.log("wrong spelled words " + wrongAnswers);
+    
     if (percentage >= 60) { 
-      console.log("move to next page");
+      console.log("move to the next page");
       Alert.alert(
-        'Quiz Result,  "Congratulations! Click Next to proceed to the next level"',
+        'Quiz Result',
         scoreMessage,
         [
           {
-            text: "Next",
-            onPress: () => navigation.navigate("VoiceQuizAppIntermediate")
+            text: 'Next',
+            onPress: () => navigation.navigate('VoiceQuizAppIntermediate')
           }
-        ]
+        ],
+        {
+          cancelable: false,
+          customView: (
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../../App/assets/1.png')}
+                style={{ width: 100, height: 100 }}
+              />
+            </View>
+          )
+        }
       );
     } else {
       Alert.alert(
-        "Quiz Result",
+        'Quiz Result',
         scoreMessage,
         [
           {
-            text: "OK",
-            onPress: () => console.log("OK Pressed"),
-            style: "cancel"
+            text: 'OK',
+            onPress: () => navigation.navigate('VoiceQuizApp')
           }
         ],
-        { cancelable: false }
+        {
+          cancelable: false,
+          customView: (
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../../App/assets/1.png')}
+                style={{ width: 100, height: 100 }}
+              />
+            </View>
+          )
+        }
       );
     }
+
+    // saveUseTaskDetails(userId,category,timer,score,wrongAnswers)
+    //   .then(() => {
+    //     console.log("Task data saved successfully.");
+    //     // Show appropriate alert and navigate
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error saving task data:", error);
+    //     // Handle error
+    //   });
+    
+
+      saveUseTaskDetails(userId,category,timer,percentage,wrongAnswers)
+      .then(() => {
+        console.log("Task data saved successfully.");
+        // Show appropriate alert and navigate
+      })
+      .catch((error) => {
+        console.error("Error saving task data:", error);
+        // Handle error
+      });
   
     handleReset();
   };
@@ -142,6 +195,7 @@ export default function MainScreenWriting({ navigation, route }) {
           <View style={styles.doneButton}>
             <Text style={styles.doneButtonText}>Done</Text>
           </View>
+          <Text style={styles.timer}>Time Left: {timer} seconds</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -195,4 +249,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white
   },
+  catregoryContainer1: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  }
 });

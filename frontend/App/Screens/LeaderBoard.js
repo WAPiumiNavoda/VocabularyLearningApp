@@ -120,6 +120,7 @@ export default function LeaderBoard() {
               style={[styles.icon, { width: 110, height: 110, marginLeft: 115 }]}
             />
             <Text style={styles.categoryTitle2}>You Are Doing Great !!!</Text>
+            <Text style={[styles.categoryTitle2, {paddingLeft: 110}]}>See Your Progress</Text>
           </View>
         </TouchableOpacity>
       </View>

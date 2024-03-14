@@ -19,7 +19,7 @@ export default function VoiceMainPage({ navigation, route }) {
   const { category } = route.params;
   const { userId } = useAuth();
   console.log("user level: " + userLevel);
-  console.log("Category : " + category);
+  console.log("Category Voice Main: " + category);
 
   useEffect(() => {
     const fetchUserLevel = async () => {
@@ -46,7 +46,7 @@ export default function VoiceMainPage({ navigation, route }) {
     const db = firebase.firestore();
     const questionRf = db.collection("voice");
     const snapshot = await questionRf.where("category", "==", category).get();
-    console.log("Category : " + category);
+    console.log("Voice Main Category : " + category);
     if (snapshot.empty) {
       console.log("No matching document..");
       return;

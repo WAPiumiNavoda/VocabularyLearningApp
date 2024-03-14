@@ -83,15 +83,30 @@ const DrawingScreenAdvance= ({ navigation, route }) => {
     }
   };
 
+  
   const renderPaths = () => {
-    return paths.map(({ path, color }, index) => (
-      <View key={index}>
-        {path.map((point, index) => (
-          <View key={index} style={[styles.point, { backgroundColor: color, left: point.x, top: point.y }]} />
+    return (
+      <View>
+        {/* Render existing paths */}
+        {paths.map(({ path, color }, index) => (
+          <View key={index}>
+            {path.map((point, index) => (
+              <View key={index} style={[styles.point, { backgroundColor: color, left: point.x, top: point.y }]} />
+            ))}
+          </View>
         ))}
+        {/* Render current drawing path */}
+        {currentPath.length > 0 && (
+          <View>
+            {currentPath.map((point, index) => (
+              <View key={index} style={[styles.point, { backgroundColor: strokeColor, left: point.x, top: point.y }]} />
+            ))}
+          </View>
+        )}
       </View>
-    ));
+    );
   };
+  
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,

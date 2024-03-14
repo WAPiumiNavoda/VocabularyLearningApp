@@ -9,7 +9,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { firebase } from "../../App/Services/config";
+import { firebase, saveUseWritingTaskDetails } from "../../App/Services/config";
 import VideoScreen from "../../App/HomeScreens/VideoScreen";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import the icon library
 import { useRoute } from "@react-navigation/native";
@@ -25,7 +25,7 @@ export default function PlayGroundIntermediate({ item, navigation }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentCharacterIndex, setCurrentCharacterIndex] = useState(0);
   const route = useRoute();
-  const [timeLeft, setTimeLeft] = useState(60); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(160); // 5 minutes in seconds
   const [timerActive, setTimerActive] = useState(true);
   const { category } = route.params;
   const [submittedTime, setSubmittedTime] = useState(null);
@@ -217,6 +217,14 @@ export default function PlayGroundIntermediate({ item, navigation }) {
       0
     );
     const percentageScore = ((score / totalQuestions) * 100).toFixed(2);
+
+    saveUseWritingTaskDetails(
+      userId,
+      category,
+      timeLeft,
+      score
+    );
+
     
     if(percentageScore > 50) { 
     Alert.alert(
@@ -246,7 +254,7 @@ export default function PlayGroundIntermediate({ item, navigation }) {
 
   
   const navigateToDrawingPage = (wordIndex) => {
-    navigation.navigate("DrawingScreenIntermediate", { wordIndex });
+    navigation.navigate("DrawingScreenIntermediate", { wordIndex, category });
   };
 
   return (

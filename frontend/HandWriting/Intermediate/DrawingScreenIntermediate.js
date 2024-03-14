@@ -10,6 +10,7 @@ const DrawingScreenIntermediate = ({ navigation, route }) => {
   const [predictedCharacter, setPredictedCharacter] = useState(null);
   const canvasRef = useRef(null);
   const { wordIndex } = route.params;
+  const { category } = route.params;
 
   const handleDrawStart = (x, y) => {
     setCurrentPath([{ x, y }]);
@@ -74,7 +75,7 @@ const DrawingScreenIntermediate = ({ navigation, route }) => {
       const data = await response.json();
       setPredictedCharacter(data.predicted_character);
       // navigation.navigate("VocabWordPage", { character: data.predicted_character  })
-      navigation.navigate("PlayGroundIntermediate", { drawnCharacter: data.predicted_character, wordIndex });
+      navigation.navigate("PlayGroundIntermediate", { drawnCharacter: data.predicted_character, wordIndex , category});
 
 
     } catch (error) {
@@ -83,15 +84,30 @@ const DrawingScreenIntermediate = ({ navigation, route }) => {
     }
   };
 
+ 
   const renderPaths = () => {
-    return paths.map(({ path, color }, index) => (
-      <View key={index}>
-        {path.map((point, index) => (
-          <View key={index} style={[styles.point, { backgroundColor: color, left: point.x, top: point.y }]} />
+    return (
+      <View>
+        {/* Render existing paths */}
+        {paths.map(({ path, color }, index) => (
+          <View key={index}>
+            {path.map((point, index) => (
+              <View key={index} style={[styles.point, { backgroundColor: color, left: point.x, top: point.y }]} />
+            ))}
+          </View>
         ))}
+        {/* Render current drawing path */}
+        {currentPath.length > 0 && (
+          <View>
+            {currentPath.map((point, index) => (
+              <View key={index} style={[styles.point, { backgroundColor: strokeColor, left: point.x, top: point.y }]} />
+            ))}
+          </View>
+        )}
       </View>
-    ));
+    );
   };
+  
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,

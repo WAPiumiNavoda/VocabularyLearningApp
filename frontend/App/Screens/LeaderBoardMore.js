@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, Platform } from 'react-native';
 import { db } from '../Services/config';
+import * as FileSystem from 'expo-file-system'; // Import FileSystem from Expo
 import Colors from '../Shared/Colors';
 import { useAuth } from '../../Auth/AuthProvider';
-import { fetchUserLevel } from '../Services/config';
+import * as Sharing from 'expo-sharing';
+import PDFLib, { PDFDocument, PDFPage, PDFText, PDFTable, PDFTableRow, PDFTableColumn } from 'react-native-pdf-lib';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 export default function LeaderBoardMore() {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [correctAnswer,  setWrongWritingAnswers] = useState([]);
   const { userId } = useAuth();
-  console.log("Dashboard log user: " +  userId);
   const [userLevel, setUserLevel] = useState('');
-  console.log("Dashboard log user: " +  userId);
 
   useEffect(() => {
     const fetchUserLevel = async () => {
@@ -69,7 +70,6 @@ export default function LeaderBoardMore() {
   const countOccurrences = (arr) => {
     return arr.reduce((acc, curr) => {
       acc[curr] ? acc[curr]++ : (acc[curr] = 1);
-      curr = curr + 1
       return acc;
     }, {});
   };
@@ -78,32 +78,12 @@ export default function LeaderBoardMore() {
   const wrongAnswersCount = countOccurrences(wrongAnswers);
   const wrongAnswersWritingCount = countOccurrences(correctAnswer);
 
+  
+
+  
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-    
-
- 
-    {/* <View style={styles.catregoryContainer}>
-          <TouchableOpacity 
-            style={styles.category}
-            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Fruits' })}
-          >
-            <Text style={styles.categoryTitle}>Voice</Text>
-          </TouchableOpacity>
-  
-          <TouchableOpacity 
-            style={styles.category}
-            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Commands' })}
-          >
-            <Text style={styles.categoryTitle}>Writing</Text>
-          </TouchableOpacity>
-        </View> */}
-
-
-  
-
-    
-
       <Text style={styles.sectionTitle}>Wrong Answers Voice Task:</Text>
       <View style={styles.answersContainer}>
         {Object.entries(wrongAnswersCount).map(([answer, count], index) => (
@@ -132,6 +112,7 @@ export default function LeaderBoardMore() {
           </View>
         ))}
       </View>
+
     </ScrollView>
   );
 }
@@ -142,22 +123,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  sectionname :{
-    fontFamily:'outfi-bold',
-    color: Colors.primary,
-    fontWeight: 'bold',
-    fontSize: 28,
-  },
-  sectionnameTitle :{
-    fontFamily:'outfit',
-    color: Colors.primary,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
   sectionTitle: {
     fontSize: 18,
     paddingLeft: 10,
-    fontFamily:'outfit',
+    fontFamily: 'outfit',
     fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
@@ -173,7 +142,7 @@ const styles = StyleSheet.create({
   answer: {
     marginRight: 10,
     borderRadius: 10,
-    width: 363,
+    width: 330,
     marginTop: 15, 
     borderWidth: 1,
     borderColor: Colors.green,
@@ -194,33 +163,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  container: {
-    flex: 1
-},
-catregoryContainer: {
-    flexDirection: 'row',
-    flexWrap:'wrap',
-    justifyContent:'center',
-    alignItems:'center',
-    marginTop: 30
-},
-category: {
-    width:175,
-    height: 180,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: Colors.yellow,
-    shadowColor: Colors.yellow,
-    color: Colors.white,
-    shadowOpacity: 5,
-    elevation: 5,
-    paddingTop: 20,
-},
-categoryTitle: {
-    fontSize: 20,
-    fontFamily:'outfit',
-    fontWeight:'bold',
-    textAlign:'center',
-    color: Colors.white,
-}
 });

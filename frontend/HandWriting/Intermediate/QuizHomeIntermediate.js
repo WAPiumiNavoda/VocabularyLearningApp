@@ -11,7 +11,7 @@ export default function QuizHomeIntermediate() {
   
     return (
       <ImageBackground
-      source={require("../../App/assets/writebg.png")}
+      source={require("../../App/assets/bg2.png")}
       style={style.background2}
     >
 
@@ -33,9 +33,9 @@ export default function QuizHomeIntermediate() {
   
           <TouchableOpacity 
             style={style.category}
-            onPress={() => navigation.navigate('MainWritingPageIntermediate', { category: 'Verbs' })}
+            onPress={() => navigation.navigate('MainWritingPageIntermediate', { category: 'Preposition' })}
           >
-            <Text style={style.categoryTitle}>Verbs</Text>
+            <Text style={style.categoryTitle}>Preposition</Text>
           </TouchableOpacity>
   
           <TouchableOpacity 
@@ -43,6 +43,13 @@ export default function QuizHomeIntermediate() {
             onPress={() => navigation.navigate('MainWritingPageIntermediate', { category: 'Adverbs' })}
           >
             <Text style={style.categoryTitle}>Adverbs</Text>
+          </TouchableOpacity>
+  
+          <TouchableOpacity 
+            style={style.category}
+            onPress={() => navigation.navigate('MainWritingPageIntermediate', { category: 'Pronouns' })}
+          >
+            <Text style={style.categoryTitle}>Pronouns</Text>
           </TouchableOpacity>
   
         </View>

@@ -5,13 +5,13 @@ import { Audio } from 'expo-av';
 import { useNavigation } from "@react-navigation/native";
 import Colors from '../App/Shared/Colors';
 
-const TaskMainPage = () => {
+const TaskMainPage = ({route}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [predictedKeyword, setPredictedKeyword] = useState(null);
   const [recording, setRecording] = useState(null);
   const [sound, setSound] = useState(null);
   const navigation = useNavigation();
-  
+  const { category } = route.params || {};
 
 
   const startRecording = async () => {
@@ -77,7 +77,7 @@ const TaskMainPage = () => {
 
       const result = await response.json();
       setPredictedKeyword(result.predicted_keyword);
-      navigation.navigate('MainScreenWriting', { predictedKeyword : result.predicted_keyword  });
+      navigation.navigate('MainScreenWriting', { predictedKeyword : result.predicted_keyword , category: category });
     } catch (error) {
       console.error('Error predicting keyword:', error.message);
     }

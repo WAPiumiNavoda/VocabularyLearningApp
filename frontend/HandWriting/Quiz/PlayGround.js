@@ -9,7 +9,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { firebase } from "../../App/Services/config";
+import { firebase, saveUseWritingTaskDetails } from "../../App/Services/config";
 import VideoScreen from "../../App/HomeScreens/VideoScreen";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import the icon library
 import { useRoute } from "@react-navigation/native";
@@ -20,6 +20,8 @@ export default function PlayGround({ item, navigation }) {
   const [questions, setQuestions] = useState([]);
   const [selectedOption, setSelectedOption] = useState({});
   const [score, setScore] = useState(0);
+  const [wrongWordList, setWrongWord] = useState(0);
+  const [correctWordList, setCorrectWord] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -72,8 +74,14 @@ export default function PlayGround({ item, navigation }) {
       currentQuestion.questionList[0].question[0].character[
         wordIndex
       ].word.join("");
+
     const correctWord =
       currentQuestion.questionList[0].question[0].character[wordIndex].learword;
+
+      setWrongWord(wrongWord)
+      console.log("correctWordList : " + correctWordList);
+      setCorrectWord(correctWord)
+      console.log("correctWord : " + correctWord);
 
     if (predictedCharacter !== answer) {
       // Store wrong answer in Firestore
@@ -209,12 +217,21 @@ export default function PlayGround({ item, navigation }) {
     clearInterval(timer);
     setTimerActive(false);
 
-    // Calculate the percentage score
     const totalQuestions = questions.reduce(
       (acc, curr) => acc + curr.questionList[0].question[0].character.length,
       0
     );
+
     const percentageScore = ((score / totalQuestions) * 100).toFixed(2);
+
+    saveUseWritingTaskDetails(
+      userId,
+      category,
+      timeLeft,
+      score,
+      wrongWordList,
+      correctWordList
+    );
 
     if (percentageScore > 50) {
       Alert.alert(
@@ -242,26 +259,22 @@ export default function PlayGround({ item, navigation }) {
     }
   };
 
-  const navigateToDrawingPage = (wordIndex) => {
-    navigation.navigate("DrawingScreen", { wordIndex });
+  const navigateToDrawingPage = (wordIndex, category) => {
+    navigation.navigate("DrawingScreen", { wordIndex, category });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.container}>
         <Text style={styles.timer}>{formattedTime}</Text>
-        {/* <VideoScreen videoUrl={selectedVideoUrl} /> */}
-
+    
         <FlatList
           style={styles.flatList}
           data={questions}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View style={styles.questionContainer}>
-              {/* <Text style={styles.question}>
-              {item.questionList[0].mainquestion}
-            </Text> */}
-
+      
               <View style={styles.squareContainer}>
                 {item.questionList[0].question[0].character[
                   currentCharacterIndex
@@ -278,7 +291,7 @@ export default function PlayGround({ item, navigation }) {
               <View style={styles.buttonContainer1}>
                 <Button
                   title="Drawing Page"
-                  onPress={() => navigateToDrawingPage(currentCharacterIndex)}
+                  onPress={() => navigateToDrawingPage(currentCharacterIndex , category)}
                 />
               </View>
               <View style={styles.progressBarContainer}>

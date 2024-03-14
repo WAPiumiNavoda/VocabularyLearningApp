@@ -31,9 +31,13 @@ import PlayGroundIntermediate from '../../HandWriting/Intermediate/PlayGroundInt
 import QuizHomeIntermediate from '../../HandWriting/Intermediate/QuizHomeIntermediate';
 import DrawingScreenIntermediate from '../../HandWriting/Intermediate/DrawingScreenIntermediate';
 import MainWritingPageIntermediate from '../../HandWriting/Intermediate/MainWritingPageIntermediate';
+import QuizHomeAdvance from '../../HandWriting/Advance/QuizHomeAdvance';
 import MainScreenWritingSimple from '../../SimpleHandWriting/Quiz/MainScreenWritingPageSimple';
 import MainScreenWritingPageSimple from '../../SimpleHandWriting/Quiz/MainScreenWritingPageSimple';
 import LeaderBoardMore from '../Screens/LeaderBoardMore';
+import MainWritingPageAdvance from '../../HandWriting/Advance/MainWritingPageAdvance';
+import DrawingScreenAdvance from '../../HandWriting/Advance/DrawingScreenAdvance';
+import PlayGroundAdvance from '../../HandWriting/Advance/PlayGroundAdvance';
 
 
 
@@ -81,6 +85,11 @@ export default function HomeScreenNavigation() {
         <Stack.Screen name="MainWritingPage" component={MainWritingPage} />
         <Stack.Screen name="MainScreenWritingPageSimple" component={MainScreenWritingPageSimple} />
         <Stack.Screen name="LeaderBoardMore" component={LeaderBoardMore} />
+
+        <Stack.Screen name="QuizHomeAdvance" component={QuizHomeAdvance} />
+        <Stack.Screen name="MainWritingPageAdvance" component={MainWritingPageAdvance} />
+        <Stack.Screen name="DrawingScreenAdvance" component={DrawingScreenAdvance} />
+        <Stack.Screen name="PlayGroundAdvance" component={PlayGroundAdvance} />
         
       </Stack.Navigator>
 

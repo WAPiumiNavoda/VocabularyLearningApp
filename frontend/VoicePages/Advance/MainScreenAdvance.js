@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useAuth } from "../../Auth/AuthProvider";
 import Colors from "../../App/Shared/Colors";
-import { saveWrongAnswersToFirebase } from "../../App/Services/config";
+import { saveWrongAnswersToFirebase,saveUseTaskDetails } from "../../App/Services/config";
 import SlideShowScreenWriting from "../../HandWriting/Screens/SlideShowScreenWriting";
 
 
@@ -92,6 +92,16 @@ export default function MainScreenAdvance({ navigation, route }) {
       { cancelable: false }
     );
   
+    saveUseTaskDetails(userId,category,timer,score,wrongAnswers)
+    .then(() => {
+      console.log("Task data saved successfully.");
+      // Show appropriate alert and navigate
+    })
+    .catch((error) => {
+      console.error("Error saving task data:", error);
+      // Handle error
+    });
+
     // Reset the state
     handleReset();
     // navigation.navigate('LeaderBoard');
