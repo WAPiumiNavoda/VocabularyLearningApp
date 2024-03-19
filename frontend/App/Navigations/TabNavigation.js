@@ -46,7 +46,7 @@ export default function TabNavigation() {
           )   
         }}
       />
-      <Tab.Screen name="profile" component={LeaderBoard} 
+      <Tab.Screen name="dashboard" component={LeaderBoard} 
         options={{
           tabBarIcon:({color,size}) => (
             <AntDesign name="profile" size={24} color="black" /> 

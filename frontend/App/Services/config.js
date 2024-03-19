@@ -78,27 +78,27 @@ export const saveUseTaskDetails = async (userId, category, timer, percentageScor
     const categoryDoc = await categoryDocRef.get();
 
     let totalTime = timer;
-    let totalPercentageScore = percentageScore;
+    let totalcorrect = percentageScore;
     let totalWrongAnswers = wrongAnswers.length;
    
 
     if (categoryDoc.exists) {
       const data = categoryDoc.data();
       totalTime += data.totalTime || 0;
-      totalPercentageScore += data.totalPercentageScore || 0;
+      totalcorrect += data.totalcorrect || 0;
       totalWrongAnswers += data.totalWrongAnswers || 0;
     }
 
 
     await categoryDocRef.set({
       totalTime,
-      totalPercentageScore,
+      totalcorrect,
       totalWrongAnswers
     });
 
     const taskDocRef = await tasksCollection.doc(userId).collection(category).add({
       timer,
-      percentageScore,
+      totalcorrect,
       wrongAnswers,
     });
 
@@ -109,8 +109,6 @@ export const saveUseTaskDetails = async (userId, category, timer, percentageScor
     throw error; 
   }
 };
-
-
 
 
 export const saveUseWritingTaskDetails = async (
@@ -156,7 +154,44 @@ export const saveUseWritingTaskDetails = async (
 };
 
 
+export const fetchTaskSummary = async (userId, category) => {
+  try {
+    const tasksCollection = firebase.firestore().collection('tasks');
+    const categoryDocRef = tasksCollection.doc(userId).collection(category).doc('summary');
+    const categoryDoc = await categoryDocRef.get();
 
+    if (categoryDoc.exists) {
+      console.log("Data :" + categoryDocRef);
+      return categoryDoc.data();
+    } else {
+      console.log('Summary document does not exist for category:', category);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching task summary:', error);
+    throw error;
+  }
+};
+
+
+export const fetchtotalCorrectAnswers = async (userId, category) => {
+  try {
+    const tasksCollection = firebase.firestore().collection('writingTasks');
+    const categoryDocRef = tasksCollection.doc(userId).collection(category).doc('summary');
+    const categoryDoc = await categoryDocRef.get();
+
+    if (categoryDoc.exists) {
+      console.log("Writing Task Data :" + categoryDocRef);
+      return categoryDoc.data();
+    } else {
+      console.log('Summary document does not exist for category:', category);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching task summary:', error);
+    throw error;
+  }
+};
 
 
 export { firebase , db , firebaseConfig};

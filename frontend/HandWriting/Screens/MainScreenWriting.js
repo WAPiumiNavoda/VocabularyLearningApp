@@ -12,22 +12,28 @@ export default function MainScreenWriting({ navigation, route }) {
   
   const [userLevel, setUserLevel] = useState('');
 
-  const initialAnswers = category === 'Fruits'
-    ? ["cat", "wow", "go"]
+  const initialAnswers = category === 'Animals'
+    ? ["cat", "dog", "bird"]
     : category === 'Commands'
-    ? ["cat", "wow", "up"]
+    ? ["down", "go", "up"]
+    : category === 'Numbers'
+    ? ["zero" , "one", "two"]
     : [];
 
-  console.log("Voice Category" + category);
+  // console.log("Voice Category" + category);
 
   const [answers, setAnswers] = useState(initialAnswers);
   const [words, setWords] = useState(Array(answers.length).fill(0));
   const [predictedValues, setPredictedValues] = useState(Array(answers.length).fill(''));
   const [lastPressedIndex, setLastPressedIndex] = useState(null);
   const { userId } = useAuth();
-  console.log("Dashboard log user: " +  userId);
+  // console.log("Dashboard log user: " +  userId);
   const [timerExpired, setTimerExpired] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(360);
+  const stoppedTime = 60 - timer;
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+  const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
   // useEffect hook to update timer every second
   useEffect(() => {
@@ -97,7 +103,7 @@ export default function MainScreenWriting({ navigation, route }) {
     if (percentage >= 60) { 
       console.log("move to the next page");
       Alert.alert(
-        'Quiz Result',
+        'Quiz Result, You Can move To New Level',
         scoreMessage,
         [
           {
@@ -119,7 +125,7 @@ export default function MainScreenWriting({ navigation, route }) {
       );
     } else {
       Alert.alert(
-        'Quiz Result',
+        'Quiz Result, Try Again',
         scoreMessage,
         [
           {
@@ -152,7 +158,8 @@ export default function MainScreenWriting({ navigation, route }) {
     //   });
     
 
-      saveUseTaskDetails(userId,category,timer,percentage,wrongAnswers)
+      saveUseTaskDetails(userId,category,stoppedTime,score,wrongAnswers)
+
       .then(() => {
         console.log("Task data saved successfully.");
         // Show appropriate alert and navigate
@@ -195,7 +202,7 @@ export default function MainScreenWriting({ navigation, route }) {
           <View style={styles.doneButton}>
             <Text style={styles.doneButtonText}>Done</Text>
           </View>
-          <Text style={styles.timer}>Time Left: {timer} seconds</Text>
+          <Text style={{fontSize: 16, marginTop: 20, marginLeft: 60}}>Time Left: {formattedTime} seconds</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -7,19 +7,31 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { db } from "../Services/config";
+import {
+  db,
+  fetchTaskSummary,
+  fetchtotalCorrectAnswers,
+} from "../Services/config";
 import Colors from "../Shared/Colors";
 import { useAuth } from "../../Auth/AuthProvider";
 import { fetchUserLevel } from "../Services/config";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
+import { BarChart, PieChart, ProgressChart } from "react-native-chart-kit";
 export default function LeaderBoard() {
   const navigation = useNavigation();
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [correctAnswer, setWrongWritingAnswers] = useState([]);
+  const [taskAnswers, setTaskAnswers] = useState([]);
+  const [voiceTaskSummery, setTaskSummery] = useState([]);
   const { userId } = useAuth();
   const [userLevel, setUserLevel] = useState("");
+  console.log("taskAnswers summery " + taskAnswers.totalTime);
+  const [predictedCategory, setPredictedCategory] = useState(null);
+  const [predictedWritingCategory, setPredictedWritingCategory] =
+    useState(null);
 
+    const value1 =  taskAnswers.totalTim
   useEffect(() => {
     const fetchUserLevel = async () => {
       try {
@@ -75,7 +87,6 @@ export default function LeaderBoard() {
     fetchWrongWritingAnswers();
   }, [userId]);
 
-  // Count occurrences of each wrong answer word
   const countOccurrences = (arr) => {
     return arr.reduce((acc, curr) => {
       acc[curr] ? acc[curr]++ : (acc[curr] = 1);
@@ -83,7 +94,6 @@ export default function LeaderBoard() {
     }, {});
   };
 
-  // Get count of each wrong answer word
   const wrongAnswersCount = countOccurrences(wrongAnswers);
   const wrongAnswersWritingCount = countOccurrences(correctAnswer);
 
@@ -105,8 +115,261 @@ export default function LeaderBoard() {
     });
   };
 
+  //fetch fruits data
+  useEffect(() => {
+    const fetchSummaryData = async () => {
+      try {
+        const summaryData = await fetchTaskSummary(userId, "Fruits");
+        setTaskAnswers(summaryData);
+        if (summaryData) {
+          console.log("Summary data Fruits:", summaryData);
+          console.log(
+            "Summary data totalScore Fruits:",
+            summaryData.totalcorrect
+          );
+          console.log("Summary data totalTime Fruits: ", summaryData.totalTime);
+          console.log(
+            "Summary data totalWrongAnswers Fruits:",
+            summaryData.totalWrongAnswers
+          );
+        } else {
+          console.log("Summary data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching task summary:", error);
+      }
+    };
+
+    fetchSummaryData();
+  }, [userId]);
+
+  //fetch commands data
+  useEffect(() => {
+    const fetchSummaryData = async () => {
+      try {
+        const summaryData = await fetchTaskSummary(userId, "Commands");
+        setTaskAnswers(summaryData);
+        if (summaryData) {
+          console.log("Summary data Commands:", summaryData);
+          console.log(
+            "Summary data totalScore Commands:",
+            summaryData.totalcorrect
+          );
+          console.log(
+            "Summary data totalTime Commands: ",
+            summaryData.totalTime
+          );
+          console.log(
+            "Summary data totalWrongAnswers Commands:",
+            summaryData.totalWrongAnswers
+          );
+        } else {
+          console.log("Summary data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching task summary:", error);
+      }
+    };
+
+    fetchSummaryData();
+  }, [userId]);
+
+  //fetch writing adjectives
+  // useEffect(() => {
+  //   const fetchSummaryAdjData = async () => {
+  //     try {
+  //       const summaryData = await fetchtotalCorrectAnswers(
+  //         userId,
+  //         "Adjectives"
+  //       );
+  //       setTaskAnswers(summaryData);
+  //       if (summaryData) {
+  //         console.log("Summary data Adjectives:", summaryData);
+  //         console.log(
+  //           "Summary data totalScore Adjectives:",
+  //           summaryData.totalCorrectAnswers
+  //         );
+  //         console.log(
+  //           "Summary data totalTime Adjectives: ",
+  //           summaryData.totalTime
+  //         );
+  //         console.log(
+  //           "Summary data totalWrongAnswers Adjectives:",
+  //           summaryData.totalpercentageScore
+  //         );
+  //       } else {
+  //         console.log("Summary data not found.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching task summary:", error);
+  //     }
+  //   };
+
+  //   fetchSummaryAdjData();
+  // }, [userId]);
+
+  // useEffect(() => {
+  //   const fetchSummaryNumbersData = async () => {
+  //     try {
+  //       const summaryData = await fetchtotalCorrectAnswers(
+  //         userId,
+  //         "Numbers"
+  //       );
+  //       setTaskAnswers(summaryData);
+  //       if (summaryData) {
+  //         console.log("Summary data Numbers:", summaryData);
+  //         console.log(
+  //           "Summary data totalScore Numbers:",
+  //           summaryData.totalCorrectAnswers
+  //         );
+  //         console.log(
+  //           "Summary data totalTime Numbers: ",
+  //           summaryData.totalTime
+  //         );
+  //         console.log(
+  //           "Summary data totalWrongAnswers Numbers:",
+  //           summaryData.totalpercentageScore
+  //         );
+  //       } else {
+  //         console.log("Summary data not found.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching task summary:", error);
+  //     }
+  //   };
+
+  //   fetchSummaryNumbersData();
+  // }, [userId]);
+
+
+ 
+
+  const predictCategory = async () => {
+    try {
+      // Sample input data for prediction
+      const inputData = {
+        Time_Fruits: taskAnswers.totalTime,
+        Correct_Fruits: 10,
+        Incorrect_Fruits: 2,
+        Time_Numbers: 15,
+        Correct_Numbers: 10,
+        Incorrect_Numbers: 5,
+        Time_Commands: 8,
+        Correct_Commands: 6,
+        Incorrect_Commands: 2,
+        Time_Animals: 12,
+        Correct_Animals: 9,
+        Incorrect_Animals: 3,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8001/predictvoicefeedback",
+        inputData
+      );
+
+      console.log("Predicted category:", response.data.predicted_category);
+
+      setPredictedCategory(response.data.predicted_category);
+    } catch (error) {
+      console.error("Error predicting category:", error);
+    }
+  };
+
+  const predictWritingCategory = async () => {
+    try {
+      const inputData = {
+        Time_Adjectives: 10,
+        Correct_Adjectives: 3,
+        Incorrect_Adjectives: 14,
+        Time_Nouns: 45,
+        Correct_Nouns: 40,
+        Incorrect_Nouns: 50,
+        Time_Preposition: 56,
+        Correct_Preposition: 23,
+        Incorrect_Preposition: 19,
+        Time_Adverbs: 30,
+        Correct_Adverbs: 12,
+        Incorrect_Adverbs: 10,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8002/predictwritingfeedback",
+        inputData
+      );
+
+      console.log(
+        "Predicted writing category:",
+        response.data.predicted_category
+      );
+      setPredictedWritingCategory(response.data.predicted_category);
+    } catch (error) {
+      console.error("Error predicting category:", error);
+    }
+  };
+
+  //predicted voice categoy
+  const renderPredictedCategory = () => {
+    if (predictedCategory !== null) {
+      return (
+        <>
+          <Text style={{ color: Colors.yellow }}>
+            You Need To Improve Category:{"\n"}
+          </Text>
+          <Text style={{ fontFamily: "outfi-bold" }}>{predictedCategory}</Text>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const renderPredictedWritingCategory = () => {
+    if (predictedCategory !== null) {
+      return (
+        <>
+          <Text style={{ color: Colors.yellow }}>
+            You Need To Improve Category:{"\n"}
+          </Text>
+          <Text style={{ fontFamily: "outfi-bold" }}>
+            {predictedWritingCategory}
+          </Text>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    predictCategory();
+    predictWritingCategory();
+  }, []);
+
+  const data = {
+    labels: ["Fruits", "Commands", "Vegetables", "Animals", "Equipm"],
+    datasets: [
+      {
+        data: [20, 45, 28, 80, 99],
+      },
+    ],
+  };
+
+  const chartConfig = {
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+  };
+
+  const graphStyle = {
+    fontSize: 16,
+    color: "blue",
+    padding: 10,
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View contentContainerStyle={styles.container}>
       <View style={styles.catregoryContainer1}>
         <TouchableOpacity
           style={styles.category1}
@@ -114,19 +377,41 @@ export default function LeaderBoard() {
             navigation.navigate("LeaderBoardMore", { category: "Fruits" })
           }
         >
+          <Text style={[styles.categoryTitle2, { paddingLeft: 20 }]}>
+            {renderPredictedCategory()}
+          </Text>
           <View style={styles.textContainer}>
-            <Image
+            {/* <Image
               source={require("../../App/assets/bar.png")}
               style={[styles.icon, { width: 110, height: 110, marginLeft: 115 }]}
-            />
-            <Text style={styles.categoryTitle2}>You Are Doing Great !!!</Text>
-            <Text style={[styles.categoryTitle2, {paddingLeft: 110}]}>See Your Progress</Text>
+            /> */}
+            {/* <Text style={styles.categoryTitle2}>You Are Doing Great !!!</Text>
+            <Text style={[styles.categoryTitle2, {paddingLeft: 110}]}>See Your Progress</Text> */}
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.category1}
+          onPress={() =>
+            navigation.navigate("LeaderBoardMore", { category: "Fruits" })
+          }
+        >
+          <Text style={[styles.categoryTitle2, { paddingLeft: 20 }]}>
+            {renderPredictedWritingCategory()}
+          </Text>
+          <View style={styles.textContainer}>
+            {/* <Image
+              source={require("../../App/assets/bar.png")}
+              style={[styles.icon, { width: 110, height: 110, marginLeft: 115 }]}
+            /> */}
+            {/* <Text style={styles.categoryTitle2}>You Are Doing Great !!!</Text>
+            <Text style={[styles.categoryTitle2, {paddingLeft: 110}]}>See Your Progress</Text> */}
           </View>
         </TouchableOpacity>
       </View>
 
       <View style={styles.catregoryContainer}>
-        <TouchableOpacity
+         <TouchableOpacity
           style={styles.category}
           onPress={() =>
             navigation.navigate("LeaderBoardMore", { category: "Fruits" })
@@ -146,12 +431,23 @@ export default function LeaderBoard() {
         >
           <Text style={styles.categoryTitle}>Writing</Text>
         </TouchableOpacity>
-       
-          <View style={styles.answersContainer1}>
-            {renderWrongWords(wrongAnswersWritingCount)}
-          </View>
+
+        <View style={styles.answersContainer1}>
+          {renderWrongWords(wrongAnswersWritingCount)}
+        </View> 
+{/*
+          <BarChart
+            style={graphStyle}
+            data={data}
+            width={360}
+            height={330}
+            yAxisLabel="s"
+            chartConfig={chartConfig}
+            verticalLabelRotation={40}
+          />
+          */}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -253,7 +549,7 @@ const styles = StyleSheet.create({
   },
   category1: {
     width: 365,
-    height: 180,
+    height: 80,
     margin: 10,
     borderRadius: 10,
     backgroundColor: Colors.white,
@@ -270,14 +566,10 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   categoryTitle2: {
-    fontSize: 15,
+    fontSize: 20,
     fontFamily: "outfit",
     fontWeight: "bold",
     paddingLeft: 100,
     paddingTop: 1,
-  },
-  textContainer: {
-    marginTop: 20,
-    marginRight: 10,
   },
 });

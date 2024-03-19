@@ -12,22 +12,25 @@ export default function VoiceQuizAppIntermediate() {
     return (
       <View style={style.container}>
         <View style={style.catregoryContainer}>
-          <TouchableOpacity 
+
+        <TouchableOpacity 
             style={style.category}
-            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Fruits' })}
+            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Animals' })}
           >
-             <Image
-            source={require("../../App/assets/voiceicon3.jpg")} // Specify the path to your image
+              <Image
+            source={require("../../App/assets/voiceicon5.jpg")} // Specify the path to your image
             style={[style.icon,{width:50, height:70, marginBottom:13}]} // Style your image if needed
           />
-            <Text style={style.categoryTitle}>Fruits</Text>
+            <Text style={style.categoryTitle}>Animals</Text>
           </TouchableOpacity>
+
+        
   
           <TouchableOpacity 
             style={style.category}
             onPress={() => navigation.navigate('VoiceMainPage', { category: 'Commands' })}
           >
-               <Image
+              <Image
             source={require("../../App/assets/voiceicon9.png")} // Specify the path to your image
             style={[style.icon,{width:50, height:50, marginBottom:13, borderRadius:10}]} // Style your image if needed
           />
@@ -47,13 +50,13 @@ export default function VoiceQuizAppIntermediate() {
         <View style={style.catregoryContainer}>
           <TouchableOpacity 
             style={style.category}
-            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Vegetables' })}
+            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Common' })}
           >
                <Image
             source={require("../../App/assets/voiceicon2.png")} // Specify the path to your image
             style={[style.icon,{width:50, height:70, marginBottom:13}]} // Style your image if needed
           />
-            <Text style={style.categoryTitle}>Vegetables</Text>
+            <Text style={style.categoryTitle}>Common</Text>
           </TouchableOpacity>
   
           <TouchableOpacity 
@@ -78,15 +81,15 @@ export default function VoiceQuizAppIntermediate() {
         </View>
 
         <View style={style.catregoryContainer}>
-          <TouchableOpacity 
+        <TouchableOpacity 
             style={style.category}
-            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Animals' })}
+            onPress={() => navigation.navigate('VoiceMainPage', { category: 'Fruits' })}
           >
-               <Image
-            source={require("../../App/assets/voiceicon5.jpg")} // Specify the path to your image
+             <Image
+            source={require("../../App/assets/voiceicon3.jpg")} // Specify the path to your image
             style={[style.icon,{width:50, height:70, marginBottom:13}]} // Style your image if needed
           />
-            <Text style={style.categoryTitle}>Animals</Text>
+            <Text style={style.categoryTitle}>Fruits</Text>
           </TouchableOpacity>
   
           <TouchableOpacity

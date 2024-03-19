@@ -7,7 +7,7 @@ from typing import Optional
 
 app = FastAPI()
 
-SAVED_MODEL_PATH = "../model.h5"
+SAVED_MODEL_PATH = "../modelnew.h5"
 SAMPLES_TO_CONSIDER = 22050
 
 class KeywordSpottingService:

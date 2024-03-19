@@ -27,13 +27,14 @@ export default function PlayGround({ item, navigation }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentCharacterIndex, setCurrentCharacterIndex] = useState(0);
   const route = useRoute();
-  const [timeLeft, setTimeLeft] = useState(60); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(360); // 5 minutes in seconds
   const [timerActive, setTimerActive] = useState(true);
   const { category } = route.params;
   const [submittedTime, setSubmittedTime] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
   let timer;
   const { userId } = useAuth();
+
 
   // console.log("categogry play ground page " + category);
 
@@ -236,7 +237,7 @@ export default function PlayGround({ item, navigation }) {
     if (percentageScore > 50) {
       Alert.alert(
         "Result",
-        `Your scored ${percentageScore}% out of all questions with a stopped time of ${stoppedTime} seconds`,
+        `Your scored ${percentageScore}% out of all questions.`,
         [
           {
             text: "Next",
@@ -247,7 +248,7 @@ export default function PlayGround({ item, navigation }) {
     } else {
       Alert.alert(
         "Result",
-        `Your scored ${percentageScore}% out of all questions with a stopped time of ${stoppedTime} seconds, try again`,
+        `Your scored ${percentageScore}% out of all questions . Try again`,
         [
           {
             text: "OK",
@@ -266,7 +267,7 @@ export default function PlayGround({ item, navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.timer}>{formattedTime}</Text>
+        <Text style={styles.timer}> Time Left : {formattedTime}</Text>
     
         <FlatList
           style={styles.flatList}
@@ -292,6 +293,7 @@ export default function PlayGround({ item, navigation }) {
                 <Button
                   title="Drawing Page"
                   onPress={() => navigateToDrawingPage(currentCharacterIndex , category)}
+                  color={Colors.yellow}
                 />
               </View>
               <View style={styles.progressBarContainer}>
@@ -335,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 40,
+    marginBottom: 30,
   },
   questionContainer: {
     marginTop: 60,
@@ -427,7 +429,7 @@ const styles = StyleSheet.create({
   },
   timer: {
     paddingTop: 30,
-    fontSize: 34,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
@@ -437,7 +439,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: "30",
     borderWidth: 2,
-    borderColor: Colors.gray,
+    borderColor: Colors.yellow,
     color: Colors.black,
     width: "60%",
     alignItems: "center",

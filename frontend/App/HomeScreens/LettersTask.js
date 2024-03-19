@@ -8,7 +8,7 @@ export default function LetterTask() {
 
   return (
     <ImageBackground
-      source={require("../../App/assets/background1.jpeg")} 
+      source={require("../../App/assets/category.jpeg")} 
       style={style.background1}
     >
       <ScrollView contentContainerStyle={style.scrollViewContent}>
@@ -37,7 +37,7 @@ export default function LetterTask() {
               }
             >
               <Image
-                source={require("../../App/assets/write1.jpg")} // Specify the path to your image
+                source={require("../../App/assets/l1.jpg")} // Specify the path to your image
                 style={[style.icon, { width: 100, height: 100, marginBottom: 13 }]} // Style your image if needed
               />
               <Text style={style.categoryTitle}>Capital Task</Text>
@@ -50,7 +50,7 @@ export default function LetterTask() {
               }
             >
               <Image
-                source={require("../../App/assets/write1.jpg")} // Specify the path to your image
+                source={require("../../App/assets/l2.jpg")} // Specify the path to your image
                 style={[
                   style.icon,
                   { width: 100, height: 100, marginBottom: 13, borderRadius: 10 },
@@ -78,15 +78,15 @@ const style = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 150,
+    marginTop: 70,
   },
   category: {
     width: 150,
-    height: 230,
+    height: 210,
     margin: 10,
     borderRadius: 10,
     backgroundColor: "#fff",
-    shadowColor: Colors.yellow,
+    shadowColor: Colors.black,
     shadowOpacity: 5,
     elevation: 5,
     justifyContent: "center",

@@ -11,6 +11,7 @@ import VoiceVideoScreen from "./VoiceVideoScreen";
 import { firebase } from "../App/Services/config";
 import { useAuth } from "../Auth/AuthProvider";
 import { db } from "../App/Services/config";
+
 export default function VoiceMainPage({ navigation, route }) {
   const [voiceQuestions, setVoiceQuestions] = useState([]);
   const [score, setScore] = useState(0);

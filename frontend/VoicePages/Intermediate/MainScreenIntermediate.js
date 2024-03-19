@@ -14,18 +14,22 @@ export default function MainScreenIntermediate({ navigation, route }) {
   //const { answers } = route.params;
 
   const { category } = route.params;
-  const initialAnswers = category === 'Fruits'
-    ? ["dataset\\cat", "dataset\\wow", "dataset\\go", "data\\up"]
+  
+  const initialAnswers = category === 'Animals'
+    ? ["cat", "dog", "bird","goat"]
     : category === 'Commands'
-    ? ["dataset\\cat", "dataset\\wow", "dataset\\up"]
+    ? ["down", "go", "up","down"]
+    : category === 'Numbers'
+    ? ["zero" , "one", "two","three"]
     : [];
-    
+
   const [answers, setAnswers] = useState(initialAnswers);
   const [words, setWords] = useState(Array(answers.length).fill(0));
   const [predictedValues, setPredictedValues] = useState(Array(answers.length).fill(''));
   const [lastPressedIndex, setLastPressedIndex] = useState(null);
   const { userId } = useAuth();
-
+  const [timer, setTimer] = useState(60);
+  const stoppedTime = 60 - timer;
 
 
   const handleMicPress = (index, predictedKeyword) => {
@@ -79,18 +83,53 @@ export default function MainScreenIntermediate({ navigation, route }) {
     saveWrongAnswersToFirebase(wrongAnswers, userId); // Save wrong answers to Firebase
   
     // Display the score message in an alert
-    Alert.alert(
-      'Quiz Result,  "Congratulations! Click Next to proceed to the next level"',
-      scoreMessage,
-      [
+    if (percentage >= 50) { 
+      console.log("move to the next page");
+      Alert.alert(
+        'Quiz Result',
+        scoreMessage,
+        [
+          {
+            text: 'Next',
+            onPress: () => navigation.navigate('VoiceQuizAppAdvance')
+          }
+        ],
         {
-          text: "Next",
-          onPress: () => navigation.navigate("VoiceQuizAppAdvance")
-        },
-      ],
-      { cancelable: false }
-    );
-  
+          cancelable: false,
+          customView: (
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../../App/assets/1.png')}
+                style={{ width: 100, height: 100 }}
+              />
+            </View>
+          )
+        }
+      );
+    } else {
+      Alert.alert(
+        'Quiz Result, Try Again',
+        scoreMessage,
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate(' VoiceQuizAppIntermediate')
+          }
+        ],
+        {
+          cancelable: false,
+          customView: (
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={require('../../App/assets/1.png')}
+                style={{ width: 100, height: 100 }}
+              />
+            </View>
+          )
+        }
+      );
+    }
+
 
     saveUseTaskDetails(userId,category,timer,score,wrongAnswers)
       .then(() => {
@@ -137,6 +176,7 @@ export default function MainScreenIntermediate({ navigation, route }) {
           <View style={styles.doneButton}>
             <Text style={styles.doneButtonText}>Done</Text>
           </View>
+          <Text style={{fontSize: 15, marginTop: 20, marginLeft: 80}}>Time Left: {timer} seconds</Text>
         </TouchableOpacity>
 
         {/* <View style={styles.doneButton}>
