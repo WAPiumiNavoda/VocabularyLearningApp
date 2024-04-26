@@ -167,25 +167,32 @@ export default Login = () => {
 
 
 
-  const saveUserDataToFirestore  = async (userId, email) => {
-
+  const saveUserDataToFirestore = async (userId, email) => {
     try {
-      const userWrongAnswersRef = firebase.firestore().collection('register').doc(userId);
+      // Save user data to the "register" collection
+      const userRegisterRef = firebase.firestore().collection('register').doc(userId);
   
-      await userWrongAnswersRef.set({
+      await userRegisterRef.set({
         userId: userId,
         level: "Basic",
         password: password,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
   
-      console.log("Wrong answers saved successfully!");
+      // Save user data to the "profile" collection
+      const userProfileRef = firebase.firestore().collection('profile').doc(userId);
+  
+      await userProfileRef.set({
+        userId: userId,
+        level: "Basic", // Set the initial level to "Basic" or any default value
+      });
+  
+      console.log("User data saved successfully to both 'register' and 'profile' collections!");
     } catch (error) {
-      console.error('Error saving wrong answers to Firestore:', error);
+      console.error('Error saving user data to Firestore:', error);
     }
-
-   
   };
+  
   
 
   return (

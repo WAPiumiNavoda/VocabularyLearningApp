@@ -24,29 +24,19 @@ export default function LeaderBoard() {
   const [correctAnswer, setWrongWritingAnswers] = useState([]);
   const [taskAnswers, setTaskAnswers] = useState([]);
   const [voiceTaskSummery, setTaskSummery] = useState([]);
+
   const { userId } = useAuth();
-  const [userLevel, setUserLevel] = useState("");
-  console.log("taskAnswers summery " + taskAnswers.totalTime);
+
+  //console.log("taskAnswers summery " + taskAnswers.totalTime);
   const [predictedCategory, setPredictedCategory] = useState(null);
   const [predictedWritingCategory, setPredictedWritingCategory] =
     useState(null);
+    const [level, setLevel] = useState("");
 
-    const value1 =  taskAnswers.totalTim
-  useEffect(() => {
-    const fetchUserLevel = async () => {
-      try {
-        const userDoc = await db.collection("register").doc(userId).get();
-        const userData = userDoc.data();
-        if (userData) {
-          setUserLevel(userData.level || "");
-        }
-      } catch (error) {
-        console.error("Error fetching user level:", error);
-      }
-    };
+console.log("user level: " + level);
+console.log("user userId: " + userId);
 
-    fetchUserLevel();
-  }, [userId]);
+  
 
   useEffect(() => {
     const fetchWrongAnswers = async () => {
@@ -114,6 +104,20 @@ export default function LeaderBoard() {
       }
     });
   };
+
+  //fecth user level
+  useEffect(() => {
+    // Fetch user's level and set the state
+    const getUserLevel = async () => {
+      try {
+        const userLevel = await fetchUserLevel(userId);
+        setLevel(userLevel);
+      } catch (error) {
+        console.error("Error fetching user level:", error);
+      }
+    };
+    getUserLevel();
+  }, [userId]); // Call only once when userId changes
 
   //fetch fruits data
   useEffect(() => {
@@ -249,17 +253,17 @@ export default function LeaderBoard() {
       // Sample input data for prediction
       const inputData = {
         Time_Fruits: taskAnswers.totalTime,
-        Correct_Fruits: 10,
-        Incorrect_Fruits: 2,
-        Time_Numbers: 15,
-        Correct_Numbers: 10,
-        Incorrect_Numbers: 5,
-        Time_Commands: 8,
-        Correct_Commands: 6,
-        Incorrect_Commands: 2,
-        Time_Animals: 12,
-        Correct_Animals: 9,
-        Incorrect_Animals: 3,
+        Correct_Fruits: taskAnswers.totalcorrect,
+        Incorrect_Fruits: taskAnswers.totalWrongAnswers,
+        Time_Numbers: taskAnswers.totalTime,
+        Correct_Numbers: 0,
+        Incorrect_Numbers: 0,
+        Time_Commands: 0,
+        Correct_Commands: 0,
+        Incorrect_Commands: 0,
+        Time_Animals: 0,
+        Correct_Animals: 0,
+        Incorrect_Animals: 0,
       };
 
       const response = await axios.post(
@@ -312,8 +316,11 @@ export default function LeaderBoard() {
     if (predictedCategory !== null) {
       return (
         <>
+         <Text style={{ color: Colors.green}}>
+             Voice Base{"\n"}
+          </Text>
           <Text style={{ color: Colors.yellow }}>
-            You Need To Improve Category:{"\n"}
+          Focusing on :
           </Text>
           <Text style={{ fontFamily: "outfi-bold" }}>{predictedCategory}</Text>
         </>
@@ -327,8 +334,11 @@ export default function LeaderBoard() {
     if (predictedCategory !== null) {
       return (
         <>
+        <Text style={{ color: Colors.green}}>
+             Writing Base{"\n"}
+          </Text>
           <Text style={{ color: Colors.yellow }}>
-            You Need To Improve Category:{"\n"}
+            Focusing on :
           </Text>
           <Text style={{ fontFamily: "outfi-bold" }}>
             {predictedWritingCategory}
@@ -370,14 +380,28 @@ export default function LeaderBoard() {
 
   return (
     <View contentContainerStyle={styles.container}>
+
+      
       <View style={styles.catregoryContainer1}>
+      <TouchableOpacity
+          style={styles.category1}
+          onPress={() =>
+            navigation.navigate("LeaderBoardMore")
+          }
+        >
+          <Text style={[styles.categoryTitle2, {paddingTop: 12, paddingLeft: 7 }]}>
+            Your Level Is:  {level}
+          </Text>
+        
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.category1}
           onPress={() =>
             navigation.navigate("LeaderBoardMore", { category: "Fruits" })
           }
         >
-          <Text style={[styles.categoryTitle2, { paddingLeft: 20 }]}>
+          <Text style={[styles.categoryTitle2, {paddingTop: 12, paddingLeft: 7 }]}>
             {renderPredictedCategory()}
           </Text>
           <View style={styles.textContainer}>
@@ -396,7 +420,7 @@ export default function LeaderBoard() {
             navigation.navigate("LeaderBoardMore", { category: "Fruits" })
           }
         >
-          <Text style={[styles.categoryTitle2, { paddingLeft: 20 }]}>
+          <Text style={[styles.categoryTitle2, {paddingTop: 12, paddingLeft: 7 }]}>
             {renderPredictedWritingCategory()}
           </Text>
           <View style={styles.textContainer}>
@@ -447,6 +471,8 @@ export default function LeaderBoard() {
           />
           */}
       </View>
+
+      
     </View>
   );
 }
@@ -548,12 +574,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   category1: {
-    width: 365,
+    width: 380,
     height: 80,
     margin: 10,
     borderRadius: 10,
     backgroundColor: Colors.white,
-    borderColor: Colors.orange,
+    borderColor: Colors.yellow,
     borderWidth: 2,
     elevation: 5,
     paddingTop: 0,

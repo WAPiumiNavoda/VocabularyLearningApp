@@ -8,7 +8,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Colors from "../App/Shared/Colors";
 import VoiceVideoScreen from "./VoiceVideoScreen";
-import { firebase } from "../App/Services/config";
+import { fetchUserLevel, firebase } from "../App/Services/config";
 import { useAuth } from "../Auth/AuthProvider";
 import { db } from "../App/Services/config";
 
@@ -16,42 +16,43 @@ export default function VoiceMainPage({ navigation, route }) {
   const [voiceQuestions, setVoiceQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [showResult, setshowResult] = useState(false);
-  const [userLevel, setUserLevel] = useState("");
+  const [level, setLevel] = useState("");
   const { category } = route.params;
   const { userId } = useAuth();
-  console.log("user level: " + userLevel);
+  // console.log("user level: " + userLevel);
   console.log("Category Voice Main: " + category);
 
+
+  //fecth user level
   useEffect(() => {
-    const fetchUserLevel = async () => {
+    // Fetch user's level and set the state
+    const getUserLevel = async () => {
       try {
-        const userDoc = await db.collection("register").doc(userId).get();
-        const userData = userDoc.data();
-        if (userData) {
-          setUserLevel(userData.level || "");
-        }
+        const userLevel = await fetchUserLevel(userId);
+        setLevel(userLevel);
       } catch (error) {
         console.error("Error fetching user level:", error);
       }
     };
-
-    fetchUserLevel();
-  }, [userId]);
-
+    getUserLevel();
+  }, [userId]); // Call only once when userId changes
+  
   useEffect(() => {
     getVoiceQuestions();
-  }, []);
-
+  }, [level, category]);
+  
   const getVoiceQuestions = async () => {
-    setshowResult(false);
     const db = firebase.firestore();
     const questionRf = db.collection("voice");
-    const snapshot = await questionRf.where("category", "==", category).get();
-    console.log("Voice Main Category : " + category);
+    const snapshot = await questionRf
+      .where("category", "==", category)
+      .where("level", "==", level)
+      .get();
     if (snapshot.empty) {
-      console.log("No matching document..");
+      console.log("No matching documents.");
       return;
     }
+
     const allQuestions = snapshot.docs.map((doc) => doc.data());
     setVoiceQuestions(allQuestions);
   };
@@ -127,7 +128,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   mainQuestion: {
-    fontSize: 18,
+    paddingLeft: 2,
+    fontSize: 21,
     fontFamily: "outfit",
   },
 });

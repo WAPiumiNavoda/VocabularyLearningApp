@@ -9,7 +9,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { firebase } from "../../App/Services/config";
+import { fetchUserLevel, firebase } from "../../App/Services/config";
 import VideoScreen from "../../App/HomeScreens/VideoScreen";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import the icon library
 import { useRoute } from "@react-navigation/native";
@@ -21,12 +21,28 @@ export default function MainWritingPage({ item, navigation }) {
   const [selectedVideoUrl, setSelectedVideoUrl] = useState("");
   const [SelectedMainTopic, setSelectedMainTopic] = useState("");
   const route = useRoute();
+  const [level, setLevel] = useState("");
 
-  const { category , level} = route.params;
-  console.log("level : " +  level);
-
+  const { category } = route.params;
   let timer;
   const { userId } = useAuth();
+
+    //fecth user level
+    useEffect(() => {
+      // Fetch user's level and set the state
+      const getUserLevel = async () => {
+        try {
+          const userLevel = await fetchUserLevel(userId);
+          setLevel(userLevel);
+        } catch (error) {
+          console.error("Error fetching user level:", error);
+        }
+      };
+      getUserLevel();
+    }, [userId]); // Call only once when userId changes
+  
+  console.log("level : " +  level);
+ 
 
   console.log("categogry main page " + category);
 
@@ -45,7 +61,10 @@ export default function MainWritingPage({ item, navigation }) {
     setShowResult(false);
     const db = firebase.firestore();
     const questionRf = db.collection("writingdata");
-    const snapshot = await questionRf.where("category", "==", category).get();
+    const snapshot = await questionRf
+    .where("category", "==", category)
+    .where("level", "==", level)
+    .get();
     console.log("Category : " + category);
     if (snapshot.empty) {
       console.log("No matching document..");
@@ -68,7 +87,10 @@ export default function MainWritingPage({ item, navigation }) {
   const getCategoryVideo = async (category) => {
     const db = firebase.firestore();
     const videoRf = db.collection("writingdata");
-    const snapshot = await videoRf.where("category", "==", category).get();
+    const snapshot = await videoRf
+    .where("category", "==", category)
+    .where("level", "==", level)
+    .get();
     if (snapshot.empty) {
       console.log("No matching document video..");
       return;

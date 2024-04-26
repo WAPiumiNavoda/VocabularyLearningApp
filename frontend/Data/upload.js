@@ -7,11 +7,11 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const data = require('../Data/writingdataIntermediates.json');
+const data = require('../Data/writingdata.json');
 
 async function uploadData() {
     for(const doc of data) {
-        await db.collection('writingdataIntermediates').add(doc);
+        await db.collection('writingdata').add(doc);
     }
 }
 

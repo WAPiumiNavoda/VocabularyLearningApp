@@ -9,7 +9,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { firebase, saveUseWritingTaskDetails } from "../../App/Services/config";
+import { fetchUserLevel, firebase, saveUseWritingTaskDetails } from "../../App/Services/config";
 import VideoScreen from "../../App/HomeScreens/VideoScreen";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import the icon library
 import { useRoute } from "@react-navigation/native";
@@ -32,11 +32,24 @@ export default function PlayGround({ item, navigation }) {
   const { category } = route.params;
   const [submittedTime, setSubmittedTime] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [level, setLevel] = useState("");
   let timer;
   const { userId } = useAuth();
 
-
-  // console.log("categogry play ground page " + category);
+    //fecth user level
+    useEffect(() => {
+      // Fetch user's level and set the state
+      const getUserLevel = async () => {
+        try {
+          const userLevel = await fetchUserLevel(userId);
+          setLevel(userLevel);
+        } catch (error) {
+          console.error("Error fetching user level:", error);
+        }
+      };
+      getUserLevel();
+    }, [userId]); // Call only once when userId changes
+  
 
   useEffect(() => {
     if (
@@ -53,7 +66,10 @@ export default function PlayGround({ item, navigation }) {
     setShowResult(false);
     const db = firebase.firestore();
     const questionRf = db.collection("writingdata");
-    const snapshot = await questionRf.where("category", "==", category).get();
+    const snapshot = await questionRf
+    .where("category", "==", category)
+    .where("level", "==", level)
+    .get();
     console.log("Category : " + category);
     if (snapshot.empty) {
       console.log("No matching document..");
@@ -155,9 +171,9 @@ export default function PlayGround({ item, navigation }) {
     ? ((currentWord / totalWords) * 100).toFixed(2)
     : 0;
 
-  useEffect(() => {
-    getWritingQuestion();
-  }, []);
+    useEffect(() => {
+      getWritingQuestion();
+    }, [category, level]);
 
   useEffect(() => {
     const timer = setInterval(() => {

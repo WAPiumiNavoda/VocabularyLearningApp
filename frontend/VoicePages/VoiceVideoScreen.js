@@ -1,8 +1,7 @@
 import * as React from "react";
 import { View, StyleSheet, Button } from "react-native";
 import { Video, ResizeMode } from "expo-av";
-import Colors from "../App/Shared/Colors";
-import { Ionicons } from "@expo/vector-icons";
+
 
 export default function VoiceVideoScreen({ videoUrl }) {
   const video = React.useRef(null);

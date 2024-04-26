@@ -193,6 +193,25 @@ export const fetchtotalCorrectAnswers = async (userId, category) => {
   }
 };
 
+export const fetchUserLevel = async (userId) => {
+  try {
+    const userProfileRef = db.collection('profile').doc(userId);
+    const userProfileDoc = await userProfileRef.get();
+
+    if (userProfileDoc.exists) {
+      const userData = userProfileDoc.data();
+      const userLevel = userData.level;
+      console.log("User level:", userLevel);
+      return userLevel;
+    } else {
+      console.log("User profile does not exist");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user level:", error);
+    throw error;
+  }
+};
 
 export { firebase , db , firebaseConfig};
 

@@ -33,12 +33,12 @@
                   "learword": "SAD"
                 },
                 {
-                  "word": ["C", " ", "O", "O", "L"],
+                  "word": ["C", " ", "O", "L"],
                   "answers": "L",
                   "learword": "COOL"
                 },
                 {
-                  "word": ["L", " ", "O", "N", "G"],
+                  "word": ["L", " ", "N", "G"],
                   "answers": "N",
                   "learword": "LONG"
                 },

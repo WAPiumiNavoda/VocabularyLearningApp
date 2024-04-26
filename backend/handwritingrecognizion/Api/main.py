@@ -2,10 +2,9 @@ from fastapi import FastAPI, File, UploadFile
 import cv2 as cv
 import numpy as np
 from pydantic import BaseModel
-from typing import Optional
 import os
 from tensorflow.keras.models import load_model
-from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 

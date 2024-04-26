@@ -3,30 +3,74 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity, Image } from "react-na
 import { Feather } from "@expo/vector-icons";
 import Colors from "../../App/Shared/Colors";
 import SlideShowScreenWriting from "./SlideShowScreenWriting";
-import { saveWrongAnswersToFirebase, saveUseTaskDetails } from "../../App/Services/config";
+import { saveWrongAnswersToFirebase, saveUseTaskDetails, fetchUserLevel } from "../../App/Services/config";
 import { useAuth } from "../../Auth/AuthProvider";
 
 export default function MainScreenWriting({ navigation, route }) {
   //const answers = ["dataset\\cat", "dataset\\wow", "dataset\\go"];
   const { category } = route.params || {};
-  
-  const [userLevel, setUserLevel] = useState('');
-
-  const initialAnswers = category === 'Animals'
-    ? ["cat", "dog", "bird"]
-    : category === 'Commands'
-    ? ["down", "go", "up"]
-    : category === 'Numbers'
-    ? ["zero" , "one", "two"]
-    : [];
-
-  // console.log("Voice Category" + category);
-
-  const [answers, setAnswers] = useState(initialAnswers);
-  const [words, setWords] = useState(Array(answers.length).fill(0));
-  const [predictedValues, setPredictedValues] = useState(Array(answers.length).fill(''));
-  const [lastPressedIndex, setLastPressedIndex] = useState(null);
+  const [level, setLevel] = useState("");
   const { userId } = useAuth();
+  
+  // Inside useEffect for fetching user level
+  console.log("User Level:", level);
+
+  // Inside the component, before returning
+  console.log("Category:", category);
+  console.log("Level:", level);
+
+  // Declare initialAnswers here
+  const initialAnswers = 
+    category === 'Animals' && level === 'Basic'
+      ? ["cat", "dog", "bird"]
+      : category === 'Animals' && level === 'Intermediate'
+      ? ["lion", "elephant", "tiger"]
+      : category === 'Animals' && level === 'Advanced'
+      ? ["giraffe", "hippopotamus", "rhinoceros"]
+      : category === 'Commands' && level === 'Basic'
+      ? ["down", "go", "up"]
+      : category === 'Commands' && level === 'Intermediate'
+      ? ["sit", "stay", "fetch"]
+      : category === 'Commands' && level === 'Advanced'
+      ? ["roll over", "shake", "beg"]
+      : category === 'Numbers' && level === 'Basic'
+      ? ["zero", "one", "two"]
+      : category === 'Numbers' && level === 'Intermediate'
+      ? ["three", "four", "five"]
+      : category === 'Numbers' && level === 'Advanced'
+      ? ["six", "seven", "eight"]
+      : [];
+
+  console.log("Initial Answers:", initialAnswers);
+  console.log("Predicted Values:", predictedValues);
+
+  useEffect(() => {
+    const fetchInitialAnswers = async () => {
+      try {
+        const userLevel = await fetchUserLevel(userId);
+        setLevel(userLevel);
+      } catch (error) {
+        console.error("Error fetching user level:", error);
+      }
+    };
+    fetchInitialAnswers();
+  }, [userId]);
+
+  useEffect(() => {
+    const determineInitialAnswers = () => {
+      if (category && level) {
+        setAnswers(initialAnswers);
+        setWords(Array(initialAnswers.length).fill(0));
+        setPredictedValues(Array(initialAnswers.length).fill(''));
+      }
+    };
+    determineInitialAnswers();
+  }, [category, level]);
+
+  const [answers, setAnswers] = useState([]);
+  const [words, setWords] = useState([]);
+  const [predictedValues, setPredictedValues] = useState([]);
+  const [lastPressedIndex, setLastPressedIndex] = useState(null);
   // console.log("Dashboard log user: " +  userId);
   const [timerExpired, setTimerExpired] = useState(false);
   const [timer, setTimer] = useState(360);
@@ -182,22 +226,21 @@ export default function MainScreenWriting({ navigation, route }) {
     <View >
       <SlideShowScreenWriting />
       <View style={styles.wordContainer1}>
-        {words.map((word, index) => (
-          <View key={index} style={styles.row}>
-            <TouchableOpacity onPress={() => handleMicPress(index, route.params?.predictedKeyword)}>
-              <View style={styles.box}>
-                <Text style={styles.word}>{word || "Press Mic"}</Text>
-                <Feather
-                  name="mic"
-                  size={24}
-                  color={Colors.yellow}
-                  style={styles.icon}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-        ))}
-
+  {category && level && words.map((word, index) => (
+    <View key={index} style={styles.row}>
+      <TouchableOpacity onPress={() => handleMicPress(index, route.params?.predictedKeyword)}>
+        <View style={styles.box}>
+          <Text style={styles.word}>{word || "Press Mic"}</Text>
+          <Feather
+            name="mic"
+            size={24}
+            color={Colors.yellow}
+            style={styles.icon}
+          />
+        </View>
+      </TouchableOpacity>
+    </View>
+  ))}
         <TouchableOpacity onPress={handleDonePress}>
           <View style={styles.doneButton}>
             <Text style={styles.doneButtonText}>Done</Text>

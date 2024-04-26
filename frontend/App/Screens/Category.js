@@ -45,7 +45,7 @@ export default function Category() {
         <TouchableOpacity
           style={style.category}
           onPress={() =>
-            navigation.navigate("LeaderBoard", { category: "Adverbs" })
+            navigation.navigate("LeaderBoard")
           }
         >
            <Image

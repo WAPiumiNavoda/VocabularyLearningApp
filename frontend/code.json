@@ -1,0 +1,6 @@
+// voice feedback  - uvicorn app:app --port 8001 --reload
+// writing feedback - uvicorn app:app --port 8002 --reload
+ 
+// writing model - uvicorn main:app --reload   
+// voice model - uvicorn main:app --reload   
+ 
